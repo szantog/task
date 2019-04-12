@@ -1,0 +1,7 @@
+task_api.settings:
+  path: '/task_api/settings'
+  defaults:
+#                 \Drupal\[module name]\Controller\[ClassName]::[method]
+    _controller: '\Drupal\task_api\Controller\SettingsController::settings'
+  requirements:
+    _permission: 'access content'

@@ -15,8 +15,12 @@ function task_api_help($route_name, RouteMatchInterface $route_match) {
     // Main module help for the task_api module.
     case 'help.page.task_api':
       $output = '';
+      $output .= '<h2>' . t('Task API') . '</h2>';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Allows users to create and assign tasks') . '</p>';
+      $output .= '<p>' . t('Task API allows users to create and assign tasks') . '</p>';
+        $output .= '<h3>' . t('Instructions') . '</h3>';
+      $output .= '<p>' . t('Tutorial Here.') . '</p>';
+
       return $output;
 
     default:
