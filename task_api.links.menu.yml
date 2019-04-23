@@ -15,13 +15,3 @@ entity.task_type.collection:
   description: 'List Task type (bundles)'
   parent: system.admin_structure
   weight: 99
-
-
-# Task Configuration menu items definition
-entity.task_config.collection:
-  title: 'Task Configuration'
-  route_name: entity.task_config.collection
-  description: 'List Task Configuration (bundles)'
-  parent: system.admin_structure
-  weight: 99
-
