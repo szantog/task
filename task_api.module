@@ -30,10 +30,44 @@ function task_api_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_theme().
  */
+//function task_api_theme() {
+//  return [
+//    'task_api' => [
+//      'render element' => 'children',
+//    ],
+//  ];
+//}
+
+/**
+ * Implements hook_theme().
+ */
 function task_api_theme() {
-  return [
-    'task_api' => [
-      'render element' => 'children',
-    ],
+  $theme = [];
+  $theme['task'] = [
+    'render element' => 'elements',
+    'file' => 'task.page.inc',
+    'template' => 'task',
   ];
+  $theme['task_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => 'task.page.inc',
+  ];
+  return $theme;
+}
+
+/**
+* Implements hook_theme_suggestions_HOOK().
+*/
+function task_api_theme_suggestions_task(array $variables) {
+  $suggestions = [];
+  $entity = $variables['elements']['#task'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'task__' . $sanitized_view_mode;
+  $suggestions[] = 'task__' . $entity->bundle();
+  $suggestions[] = 'task__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'task__' . $entity->id();
+  $suggestions[] = 'task__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
 }
