@@ -6,9 +6,9 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class ClassTaskTypeForm.
+ * Class TaskTypeForm.
  */
-class ClassTaskTypeForm extends EntityForm {
+class TaskTypeForm extends EntityForm {
 
   /**
    * {@inheritdoc}
@@ -30,7 +30,7 @@ class ClassTaskTypeForm extends EntityForm {
       '#type' => 'machine_name',
       '#default_value' => $task_type->id(),
       '#machine_name' => [
-        'exists' => '\Drupal\task_api\Entity\ClassTaskType::load',
+        'exists' => '\Drupal\task_api\Entity\TaskType::load',
       ],
       '#disabled' => !$task_type->isNew(),
     ];

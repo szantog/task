@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Route;
  * @see \Drupal\Core\Entity\Routing\AdminHtmlRouteProvider
  * @see \Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
  */
-class ClassTaskHtmlRouteProvider extends AdminHtmlRouteProvider {
+class TaskHtmlRouteProvider extends AdminHtmlRouteProvider {
 
   /**
    * {@inheritdoc}
@@ -64,7 +64,7 @@ class ClassTaskHtmlRouteProvider extends AdminHtmlRouteProvider {
       $route
         ->setDefaults([
           '_title' => "{$entity_type->getLabel()} revisions",
-          '_controller' => '\Drupal\task_api\Controller\ClassTaskController::revisionOverview',
+          '_controller' => '\Drupal\task_api\Controller\TaskController::revisionOverview',
         ])
         ->setRequirement('_permission', 'access task revisions')
         ->setOption('_admin_route', TRUE);
@@ -87,8 +87,8 @@ class ClassTaskHtmlRouteProvider extends AdminHtmlRouteProvider {
       $route = new Route($entity_type->getLinkTemplate('revision'));
       $route
         ->setDefaults([
-          '_controller' => '\Drupal\task_api\Controller\ClassTaskController::revisionShow',
-          '_title_callback' => '\Drupal\task_api\Controller\ClassTaskController::revisionPageTitle',
+          '_controller' => '\Drupal\task_api\Controller\TaskController::revisionShow',
+          '_title_callback' => '\Drupal\task_api\Controller\TaskController::revisionPageTitle',
         ])
         ->setRequirement('_permission', 'access task revisions')
         ->setOption('_admin_route', TRUE);
@@ -111,7 +111,7 @@ class ClassTaskHtmlRouteProvider extends AdminHtmlRouteProvider {
       $route = new Route($entity_type->getLinkTemplate('revision_revert'));
       $route
         ->setDefaults([
-          '_form' => '\Drupal\task_api\Form\ClassTaskRevisionRevertForm',
+          '_form' => '\Drupal\task_api\Form\TaskRevisionRevertForm',
           '_title' => 'Revert to earlier revision',
         ])
         ->setRequirement('_permission', 'revert all task revisions')
@@ -135,7 +135,7 @@ class ClassTaskHtmlRouteProvider extends AdminHtmlRouteProvider {
       $route = new Route($entity_type->getLinkTemplate('revision_delete'));
       $route
         ->setDefaults([
-          '_form' => '\Drupal\task_api\Form\ClassTaskRevisionDeleteForm',
+          '_form' => '\Drupal\task_api\Form\TaskRevisionDeleteForm',
           '_title' => 'Delete earlier revision',
         ])
         ->setRequirement('_permission', 'delete all task revisions')
@@ -159,7 +159,7 @@ class ClassTaskHtmlRouteProvider extends AdminHtmlRouteProvider {
       $route = new Route($entity_type->getLinkTemplate('translation_revert'));
       $route
         ->setDefaults([
-          '_form' => '\Drupal\task_api\Form\ClassTaskRevisionRevertTranslationForm',
+          '_form' => '\Drupal\task_api\Form\TaskRevisionRevertTranslationForm',
           '_title' => 'Revert to earlier revision of a translation',
         ])
         ->setRequirement('_permission', 'revert all task revisions')
@@ -183,7 +183,7 @@ class ClassTaskHtmlRouteProvider extends AdminHtmlRouteProvider {
       $route = new Route("/admin/structure/{$entity_type->id()}/settings");
       $route
         ->setDefaults([
-          '_form' => 'Drupal\task_api\Form\ClassTaskSettingsForm',
+          '_form' => 'Drupal\task_api\Form\TaskSettingsForm',
           '_title' => "{$entity_type->getLabel()} settings",
         ])
         ->setRequirement('_permission', $entity_type->getAdminPermission())

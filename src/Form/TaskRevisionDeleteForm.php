@@ -14,13 +14,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @ingroup task_api
  */
-class ClassTaskRevisionDeleteForm extends ConfirmFormBase {
+class TaskRevisionDeleteForm extends ConfirmFormBase {
 
 
   /**
    * The Task revision.
    *
-   * @var \Drupal\task_api\Entity\ClassTaskInterface
+   * @var \Drupal\task_api\Entity\TaskInterface
    */
   protected $revision;
 
@@ -29,7 +29,7 @@ class ClassTaskRevisionDeleteForm extends ConfirmFormBase {
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $ClassTaskStorage;
+  protected $TaskStorage;
 
   /**
    * The database connection.
@@ -39,7 +39,7 @@ class ClassTaskRevisionDeleteForm extends ConfirmFormBase {
   protected $connection;
 
   /**
-   * Constructs a new ClassTaskRevisionDeleteForm.
+   * Constructs a new TaskRevisionDeleteForm.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
    *   The entity storage.
@@ -47,7 +47,7 @@ class ClassTaskRevisionDeleteForm extends ConfirmFormBase {
    *   The database connection.
    */
   public function __construct(EntityStorageInterface $entity_storage, Connection $connection) {
-    $this->ClassTaskStorage = $entity_storage;
+    $this->TaskStorage = $entity_storage;
     $this->connection = $connection;
   }
 
@@ -94,7 +94,7 @@ class ClassTaskRevisionDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $task_revision = NULL) {
-    $this->revision = $this->ClassTaskStorage->loadRevision($task_revision);
+    $this->revision = $this->TaskStorage->loadRevision($task_revision);
     $form = parent::buildForm($form, $form_state);
 
     return $form;
@@ -104,7 +104,7 @@ class ClassTaskRevisionDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->ClassTaskStorage->deleteRevision($this->revision->getRevisionId());
+    $this->TaskStorage->deleteRevision($this->revision->getRevisionId());
 
     $this->logger('content')->notice('Task: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
     drupal_set_message(t('Revision from %revision-date of Task %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));

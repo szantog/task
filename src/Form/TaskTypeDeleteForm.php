@@ -9,7 +9,7 @@ use Drupal\Core\Url;
 /**
  * Builds the form to delete Task type entities.
  */
-class ClassTaskTypeDeleteForm extends EntityConfirmFormBase {
+class TaskTypeDeleteForm extends EntityConfirmFormBase {
 
   /**
    * {@inheritdoc}

@@ -6,7 +6,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\task_api\Entity\ClassTaskInterface;
+use Drupal\task_api\Entity\TaskInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @ingroup task_api
  */
-class ClassTaskRevisionRevertTranslationForm extends ClassTaskRevisionRevertForm {
+class TaskRevisionRevertTranslationForm extends TaskRevisionRevertForm {
 
 
   /**
@@ -32,7 +32,7 @@ class ClassTaskRevisionRevertTranslationForm extends ClassTaskRevisionRevertForm
   protected $languageManager;
 
   /**
-   * Constructs a new ClassTaskRevisionRevertTranslationForm.
+   * Constructs a new TaskRevisionRevertTranslationForm.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
    *   The Task storage.
@@ -90,11 +90,11 @@ class ClassTaskRevisionRevertTranslationForm extends ClassTaskRevisionRevertForm
   /**
    * {@inheritdoc}
    */
-  protected function prepareRevertedRevision(ClassTaskInterface $revision, FormStateInterface $form_state) {
+  protected function prepareRevertedRevision(TaskInterface $revision, FormStateInterface $form_state) {
     $revert_untranslated_fields = $form_state->getValue('revert_untranslated_fields');
 
-    /** @var \Drupal\task_api\Entity\ClassTaskInterface $default_revision */
-    $latest_revision = $this->ClassTaskStorage->load($revision->id());
+    /** @var \Drupal\task_api\Entity\TaskInterface $default_revision */
+    $latest_revision = $this->TaskStorage->load($revision->id());
     $latest_revision_translation = $latest_revision->getTranslation($this->langcode);
 
     $revision_translation = $revision->getTranslation($this->langcode);

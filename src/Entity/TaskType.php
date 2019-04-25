@@ -12,14 +12,14 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   label = @Translation("Task type"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\task_api\ClassTaskTypeListBuilder",
+ *     "list_builder" = "Drupal\task_api\TaskTypeListBuilder",
  *     "form" = {
- *       "add" = "Drupal\task_api\Form\ClassTaskTypeForm",
- *       "edit" = "Drupal\task_api\Form\ClassTaskTypeForm",
- *       "delete" = "Drupal\task_api\Form\ClassTaskTypeDeleteForm"
+ *       "add" = "Drupal\task_api\Form\TaskTypeForm",
+ *       "edit" = "Drupal\task_api\Form\TaskTypeForm",
+ *       "delete" = "Drupal\task_api\Form\TaskTypeDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\task_api\ClassTaskTypeHtmlRouteProvider",
+ *       "html" = "Drupal\task_api\TaskTypeHtmlRouteProvider",
  *     },
  *   },
  *   config_prefix = "task_type",
@@ -39,7 +39,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   }
  * )
  */
-class ClassTaskType extends ConfigEntityBundleBase implements ClassTaskTypeInterface {
+class TaskType extends ConfigEntityBundleBase implements TaskTypeInterface {
 
   /**
    * The Task type ID.

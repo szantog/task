@@ -5,7 +5,7 @@ namespace Drupal\task_api;
 use Drupal\Core\Entity\ContentEntityStorageInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\task_api\Entity\ClassTaskInterface;
+use Drupal\task_api\Entity\TaskInterface;
 
 /**
  * Defines the storage handler class for Task entities.
@@ -15,18 +15,18 @@ use Drupal\task_api\Entity\ClassTaskInterface;
  *
  * @ingroup task_api
  */
-interface ClassTaskStorageInterface extends ContentEntityStorageInterface {
+interface TaskStorageInterface extends ContentEntityStorageInterface {
 
   /**
    * Gets a list of Task revision IDs for a specific Task.
    *
-   * @param \Drupal\task_api\Entity\ClassTaskInterface $entity
+   * @param \Drupal\task_api\Entity\TaskInterface $entity
    *   The Task entity.
    *
    * @return int[]
    *   Task revision IDs (in ascending order).
    */
-  public function revisionIds(ClassTaskInterface $entity);
+  public function revisionIds(TaskInterface $entity);
 
   /**
    * Gets a list of revision IDs having a given user as Task author.
@@ -42,13 +42,13 @@ interface ClassTaskStorageInterface extends ContentEntityStorageInterface {
   /**
    * Counts the number of revisions in the default language.
    *
-   * @param \Drupal\task_api\Entity\ClassTaskInterface $entity
+   * @param \Drupal\task_api\Entity\TaskInterface $entity
    *   The Task entity.
    *
    * @return int
    *   The number of revisions in the default language.
    */
-  public function countDefaultLanguageRevisions(ClassTaskInterface $entity);
+  public function countDefaultLanguageRevisions(TaskInterface $entity);
 
   /**
    * Unsets the language for all Task with the given language.

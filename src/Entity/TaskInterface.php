@@ -12,7 +12,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup task_api
  */
-interface ClassTaskInterface extends ContentEntityInterface, RevisionLogInterface, EntityChangedInterface, EntityOwnerInterface {
+interface TaskInterface extends ContentEntityInterface, RevisionLogInterface, EntityChangedInterface, EntityOwnerInterface {
 
   // Add get/set methods for your configuration properties here.
 
@@ -30,7 +30,7 @@ interface ClassTaskInterface extends ContentEntityInterface, RevisionLogInterfac
    * @param string $name
    *   The Task name.
    *
-   * @return \Drupal\task_api\Entity\ClassTaskInterface
+   * @return \Drupal\task_api\Entity\TaskInterface
    *   The called Task entity.
    */
   public function setName($name);
@@ -49,7 +49,7 @@ interface ClassTaskInterface extends ContentEntityInterface, RevisionLogInterfac
    * @param int $timestamp
    *   The Task creation timestamp.
    *
-   * @return \Drupal\task_api\Entity\ClassTaskInterface
+   * @return \Drupal\task_api\Entity\TaskInterface
    *   The called Task entity.
    */
   public function setCreatedTime($timestamp);
@@ -70,7 +70,7 @@ interface ClassTaskInterface extends ContentEntityInterface, RevisionLogInterfac
    * @param bool $published
    *   TRUE to set this Task to published, FALSE to set it to unpublished.
    *
-   * @return \Drupal\task_api\Entity\ClassTaskInterface
+   * @return \Drupal\task_api\Entity\TaskInterface
    *   The called Task entity.
    */
   public function setPublished($published);
@@ -89,7 +89,7 @@ interface ClassTaskInterface extends ContentEntityInterface, RevisionLogInterfac
    * @param int $timestamp
    *   The UNIX timestamp of when this revision was created.
    *
-   * @return \Drupal\task_api\Entity\ClassTaskInterface
+   * @return \Drupal\task_api\Entity\TaskInterface
    *   The called Task entity.
    */
   public function setRevisionCreationTime($timestamp);
@@ -108,7 +108,7 @@ interface ClassTaskInterface extends ContentEntityInterface, RevisionLogInterfac
    * @param int $uid
    *   The user ID of the revision author.
    *
-   * @return \Drupal\task_api\Entity\ClassTaskInterface
+   * @return \Drupal\task_api\Entity\TaskInterface
    *   The called Task entity.
    */
   public function setRevisionUserId($uid);

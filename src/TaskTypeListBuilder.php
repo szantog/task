@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 /**
  * Provides a listing of Task type entities.
  */
-class ClassTaskTypeListBuilder extends ConfigEntityListBuilder {
+class TaskTypeListBuilder extends ConfigEntityListBuilder {
 
   /**
    * {@inheritdoc}

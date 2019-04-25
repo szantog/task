@@ -20,7 +20,7 @@ use Drupal\Core\Render\Element;
  *   - attributes: HTML attributes for the containing element.
  */
 function template_preprocess_task(array &$variables) {
-  // Fetch ClassTask Entity Object.
+  // Fetch Task Entity Object.
   $task = $variables['elements']['#task'];
 
   // Helpful $content variable for templates.

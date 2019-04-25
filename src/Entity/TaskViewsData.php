@@ -7,7 +7,7 @@ use Drupal\views\EntityViewsData;
 /**
  * Provides Views data for Task entities.
  */
-class ClassTaskViewsData extends EntityViewsData {
+class TaskViewsData extends EntityViewsData {
 
   /**
    * {@inheritdoc}

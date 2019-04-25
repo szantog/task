@@ -5,7 +5,7 @@ namespace Drupal\task_api;
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\task_api\Entity\ClassTaskInterface;
+use Drupal\task_api\Entity\TaskInterface;
 
 /**
  * Defines the storage handler class for Task entities.
@@ -15,12 +15,12 @@ use Drupal\task_api\Entity\ClassTaskInterface;
  *
  * @ingroup task_api
  */
-class ClassTaskStorage extends SqlContentEntityStorage implements ClassTaskStorageInterface {
+class TaskStorage extends SqlContentEntityStorage implements TaskStorageInterface {
 
   /**
    * {@inheritdoc}
    */
-  public function revisionIds(ClassTaskInterface $entity) {
+  public function revisionIds(TaskInterface $entity) {
     return $this->database->query(
       'SELECT vid FROM {task_revision} WHERE id=:id ORDER BY vid',
       [':id' => $entity->id()]
@@ -40,7 +40,7 @@ class ClassTaskStorage extends SqlContentEntityStorage implements ClassTaskStora
   /**
    * {@inheritdoc}
    */
-  public function countDefaultLanguageRevisions(ClassTaskInterface $entity) {
+  public function countDefaultLanguageRevisions(TaskInterface $entity) {
     return $this->database->query('SELECT COUNT(*) FROM {task_field_revision} WHERE id = :id AND default_langcode = 1', [':id' => $entity->id()])
       ->fetchField();
   }

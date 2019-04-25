@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\task_api\Entity\ClassTaskInterface;
+use Drupal\task_api\Entity\TaskInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -15,13 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @ingroup task_api
  */
-class ClassTaskRevisionRevertForm extends ConfirmFormBase {
+class TaskRevisionRevertForm extends ConfirmFormBase {
 
 
   /**
    * The Task revision.
    *
-   * @var \Drupal\task_api\Entity\ClassTaskInterface
+   * @var \Drupal\task_api\Entity\TaskInterface
    */
   protected $revision;
 
@@ -30,7 +30,7 @@ class ClassTaskRevisionRevertForm extends ConfirmFormBase {
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $ClassTaskStorage;
+  protected $TaskStorage;
 
   /**
    * The date formatter service.
@@ -40,7 +40,7 @@ class ClassTaskRevisionRevertForm extends ConfirmFormBase {
   protected $dateFormatter;
 
   /**
-   * Constructs a new ClassTaskRevisionRevertForm.
+   * Constructs a new TaskRevisionRevertForm.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
    *   The Task storage.
@@ -48,7 +48,7 @@ class ClassTaskRevisionRevertForm extends ConfirmFormBase {
    *   The date formatter service.
    */
   public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter) {
-    $this->ClassTaskStorage = $entity_storage;
+    $this->TaskStorage = $entity_storage;
     $this->dateFormatter = $date_formatter;
   }
 
@@ -101,7 +101,7 @@ class ClassTaskRevisionRevertForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $task_revision = NULL) {
-    $this->revision = $this->ClassTaskStorage->loadRevision($task_revision);
+    $this->revision = $this->TaskStorage->loadRevision($task_revision);
     $form = parent::buildForm($form, $form_state);
 
     return $form;
@@ -130,15 +130,15 @@ class ClassTaskRevisionRevertForm extends ConfirmFormBase {
   /**
    * Prepares a revision to be reverted.
    *
-   * @param \Drupal\task_api\Entity\ClassTaskInterface $revision
+   * @param \Drupal\task_api\Entity\TaskInterface $revision
    *   The revision to be reverted.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    *
-   * @return \Drupal\task_api\Entity\ClassTaskInterface
+   * @return \Drupal\task_api\Entity\TaskInterface
    *   The prepared revision ready to be stored.
    */
-  protected function prepareRevertedRevision(ClassTaskInterface $revision, FormStateInterface $form_state) {
+  protected function prepareRevertedRevision(TaskInterface $revision, FormStateInterface $form_state) {
     $revision->setNewRevision();
     $revision->isDefaultRevision(TRUE);
     $revision->setRevisionCreationTime(REQUEST_TIME);

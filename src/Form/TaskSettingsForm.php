@@ -6,11 +6,11 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class ClassTaskSettingsForm.
+ * Class TaskSettingsForm.
  *
  * @ingroup task_api
  */
-class ClassTaskSettingsForm extends FormBase {
+class TaskSettingsForm extends FormBase {
 
   /**
    * Returns a unique string identifying the form.
@@ -19,7 +19,7 @@ class ClassTaskSettingsForm extends FormBase {
    *   The unique string identifying the form.
    */
   public function getFormId() {
-    return 'classtask_settings';
+    return 'task_settings';
   }
 
   /**
@@ -46,7 +46,7 @@ class ClassTaskSettingsForm extends FormBase {
    *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['classtask_settings']['#markup'] = 'Settings form for Task entities. Manage field settings here.';
+    $form['task_settings']['#markup'] = 'Settings form for Task entities. Manage field settings here.';
     return $form;
   }
 

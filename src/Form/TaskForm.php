@@ -10,13 +10,13 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @ingroup task_api
  */
-class ClassTaskForm extends ContentEntityForm {
+class TaskForm extends ContentEntityForm {
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var $entity \Drupal\task_api\Entity\ClassTask */
+    /* @var $entity \Drupal\task_api\Entity\Task */
     $form = parent::buildForm($form, $form_state);
 
     if (!$this->entity->isNew()) {

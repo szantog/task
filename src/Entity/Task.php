@@ -20,21 +20,21 @@ use Drupal\user\UserInterface;
  *   label = @Translation("Task"),
  *   bundle_label = @Translation("Task type"),
  *   handlers = {
- *     "storage" = "Drupal\task_api\ClassTaskStorage",
+ *     "storage" = "Drupal\task_api\TaskStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\task_api\ClassTaskListBuilder",
- *     "views_data" = "Drupal\task_api\Entity\ClassTaskViewsData",
- *     "translation" = "Drupal\task_api\ClassTaskTranslationHandler",
+ *     "list_builder" = "Drupal\task_api\TaskListBuilder",
+ *     "views_data" = "Drupal\task_api\Entity\TaskViewsData",
+ *     "translation" = "Drupal\task_api\TaskTranslationHandler",
  *
  *     "form" = {
- *       "default" = "Drupal\task_api\Form\ClassTaskForm",
- *       "add" = "Drupal\task_api\Form\ClassTaskForm",
- *       "edit" = "Drupal\task_api\Form\ClassTaskForm",
- *       "delete" = "Drupal\task_api\Form\ClassTaskDeleteForm",
+ *       "default" = "Drupal\task_api\Form\TaskForm",
+ *       "add" = "Drupal\task_api\Form\TaskForm",
+ *       "edit" = "Drupal\task_api\Form\TaskForm",
+ *       "delete" = "Drupal\task_api\Form\TaskDeleteForm",
  *     },
- *     "access" = "Drupal\task_api\ClassTaskAccessControlHandler",
+ *     "access" = "Drupal\task_api\TaskAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\task_api\ClassTaskHtmlRouteProvider",
+ *       "html" = "Drupal\task_api\TaskHtmlRouteProvider",
  *     },
  *   },
  *   base_table = "task",
@@ -70,7 +70,7 @@ use Drupal\user\UserInterface;
  *   field_ui_base_route = "entity.task_type.edit_form"
  * )
  */
-class ClassTask extends RevisionableContentEntityBase implements ClassTaskInterface {
+class Task extends RevisionableContentEntityBase implements TaskInterface {
 
   use EntityChangedTrait;
 

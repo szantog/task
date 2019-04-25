@@ -10,15 +10,15 @@ use Drupal\Core\Access\AccessResult;
 /**
  * Access controller for the Task entity.
  *
- * @see \Drupal\task_api\Entity\ClassTask.
+ * @see \Drupal\task_api\Entity\Task.
  */
-class ClassTaskAccessControlHandler extends EntityAccessControlHandler {
+class TaskAccessControlHandler extends EntityAccessControlHandler {
 
   /**
    * {@inheritdoc}
    */
   protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
-    /** @var \Drupal\task_api\Entity\ClassTaskInterface $entity */
+    /** @var \Drupal\task_api\Entity\TaskInterface $entity */
     switch ($operation) {
       case 'view':
         if (!$entity->isPublished()) {

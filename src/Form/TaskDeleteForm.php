@@ -9,7 +9,7 @@ use Drupal\Core\Entity\ContentEntityDeleteForm;
  *
  * @ingroup task_api
  */
-class ClassTaskDeleteForm extends ContentEntityDeleteForm {
+class TaskDeleteForm extends ContentEntityDeleteForm {
 
 
 }

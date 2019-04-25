@@ -6,14 +6,14 @@ use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Url;
-use Drupal\task_api\Entity\ClassTaskInterface;
+use Drupal\task_api\Entity\TaskInterface;
 
 /**
- * Class ClassTaskController.
+ * Class TaskController.
  *
  *  Returns responses for Task routes.
  */
-class ClassTaskController extends ControllerBase implements ContainerInjectionInterface {
+class TaskController extends ControllerBase implements ContainerInjectionInterface {
 
   /**
    * Displays a Task  revision.
@@ -48,13 +48,13 @@ class ClassTaskController extends ControllerBase implements ContainerInjectionIn
   /**
    * Generates an overview table of older revisions of a Task .
    *
-   * @param \Drupal\task_api\Entity\ClassTaskInterface $task
+   * @param \Drupal\task_api\Entity\TaskInterface $task
    *   A Task  object.
    *
    * @return array
    *   An array as expected by drupal_render().
    */
-  public function revisionOverview(ClassTaskInterface $task) {
+  public function revisionOverview(TaskInterface $task) {
     $account = $this->currentUser();
     $langcode = $task->language()->getId();
     $langname = $task->language()->getName();
@@ -75,7 +75,7 @@ class ClassTaskController extends ControllerBase implements ContainerInjectionIn
     $latest_revision = TRUE;
 
     foreach (array_reverse($vids) as $vid) {
-      /** @var \Drupal\task_api\ClassTaskInterface $revision */
+      /** @var \Drupal\task_api\TaskInterface $revision */
       $revision = $task_storage->loadRevision($vid);
       // Only show revisions that are affected by the language that is being
       // displayed.

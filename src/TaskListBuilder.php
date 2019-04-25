@@ -11,7 +11,7 @@ use Drupal\Core\Link;
  *
  * @ingroup task_api
  */
-class ClassTaskListBuilder extends EntityListBuilder {
+class TaskListBuilder extends EntityListBuilder {
 
 
   /**
@@ -27,7 +27,7 @@ class ClassTaskListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\task_api\Entity\ClassTask */
+    /* @var $entity \Drupal\task_api\Entity\Task */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),
