@@ -25,16 +25,16 @@ The Task API will have the following entities:<br>
 
 <h5>Content Entities</h5>
 <ul>
-<li>Task: These are assignable, schedulable entities that allow either for a queue of items for execution (i.e. simplified way to add items to the Queue API), or for giving assignments.</li>
-<li>Task Notes: These are attached to tasks as information concerning the task. One example case would be time tracking, and logging work on a task.</li>
-<li>Task Templates: These contain pre-configured tasks, such that most of the information is auto-filled.</li>
+<li><b>Task:</b> These are assignable, schedulable entities that allow either for a queue of items for execution (i.e. simplified way to add items to the Queue API), or for giving assignments.</li>
+<li><b>Task Notes:</b> These are attached to tasks as information concerning the task. One example case would be time tracking, and logging work on a task.</li>
+<li><b>Task Templates:</b> These contain pre-configured tasks, such that most of the information is auto-filled.</li>
 </ul>
 Both tasks and templates may have child items. In the case of templates, child items are used to construct a set of tasks.<br>
 
 <h5>Config Entities</h5>
 <ul>
-<li>Task Statuses: These are statuses that may be set for a task. There will be an option to choose which task/template bundles may use a status. The module will ship with \'active\' and \'closed,\' with \'closed\' being forced to be available for all types.</li>
-<li>Task Closure Reasons: These are options for explaining how a task was closed. The module will ship with \'completed,\' \'dismissed,\' and \'expired.\'</li>
+<li><b>Task Statuses:</b> These are statuses that may be set for a task. There will be an option to choose which task/template bundles may use a status. The module will ship with \'active\' and \'closed,\' with \'closed\' being forced to be available for all types.</li>
+<li><b>Task Closure Reasons:</b> These are options for explaining how a task was closed. The module will ship with \'completed,\' \'dismissed,\' and \'expired.\'</li>
 </ul>
 <h4>Data structure for tasks and templates</h4>
 <b>Tasks</b><br>
