@@ -4,6 +4,7 @@ namespace Drupal\task_api\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\task_api\TaskUtilities;
 
 /**
  * Class TaskTypeForm.
@@ -37,6 +38,24 @@ class TaskTypeForm extends EntityForm {
 
     /* You will need additional form elements for your custom properties. */
 
+    $form['description'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Description'),
+      '#maxlength' => 255,
+      '#default_value' => $this->entity->getDescription(),
+      '#description' => $this->t("Description of the task type."),
+    ];
+
+    $form['allowed_statuses'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Allowed Statuses'),
+      '#description' => $this->t(''),
+      '#maxlength' => 255,
+      '#default_value' => $this->entity->getAllowedStatuses(),
+      '#options' => TaskUtilities::getAllTaskStatuses(),
+      'closed' => ['#disabled' => TRUE, '#checked' => TRUE],
+    ];
+
     return $form;
   }
 
@@ -45,6 +64,9 @@ class TaskTypeForm extends EntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     $task_type = $this->entity;
+    $statuses = $task_type->getAllowedStatuses();
+    $statuses['closed'] = 'closed';
+    $task_type->setAllowedStatuses($statuses);
     $status = $task_type->save();
 
     switch ($status) {

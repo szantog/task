@@ -1,6 +1,6 @@
-task_api.task_type.*:
+task_api.task_closure_reason.*:
   type: config_entity
-  label: 'Task type config'
+  label: 'Task Closure Reason config'
   mapping:
     id:
       type: string
@@ -11,11 +11,5 @@ task_api.task_type.*:
     description:
       type: string
       label: 'Description'
-    allowed_statuses:
-      type: sequence
-      label: 'Allowed Statuses'
-      sequence:
-        type: string
-        label: 'Status'
     uuid:
       type: string

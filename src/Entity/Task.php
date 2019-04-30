@@ -123,17 +123,21 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Not used, but part of the RevisionableContentEntityBase class.
+   * @return string
    */
   public function getName() {
-    return $this->get('name')->value;
+    // This function is not used.
+    return '';
   }
 
   /**
-   * {@inheritdoc}
+   * Not used, but part of the RevisionableContentEntityBase class.
+   * @param string $name
+   * @return $this|TaskInterface
    */
   public function setName($name) {
-    $this->set('name', $name);
+    // This function is not used.
     return $this;
   }
 
@@ -183,18 +187,21 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Not used, but part of the RevisionableContentEntityBase class.
+   * @return bool
    */
   public function isPublished() {
-    return (bool) $this->getEntityKey('status');
+    // We do not use this method.
+    return TRUE;
   }
 
   /**
-   * {@inheritdoc}
+   * Not used, but part of the RevisionableContentEntityBase class.
+   * @param bool $published
+   * @return TaskInterface|void
    */
-  public function setPublished($published) {
-    $this->set('status', $published ? TRUE : FALSE);
-    return $this;
+  public function setPublished($published = FALSE) {
+    // We do not use this method.
   }
 
   /**
@@ -250,16 +257,6 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Task is published.'))
-      ->setRevisionable(TRUE)
-      ->setDefaultValue(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
-        'weight' => -3,
-      ]);
-
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
@@ -267,6 +264,79 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
+
+    /*
+     * Assignment Fields.
+     */
+    $fields['parent_task'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Parent Task'))
+      ->setDescription(t('The parent task, if this a a sub-task.'))
+      ->setSetting('target_type', 'task')
+      ->setSetting('handler', 'default');
+    $fields['assigned_by_type'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Assigner Entity Type'))
+      ->setDescription(t('Entity type of the assignee. Typically a user, or blank for system tasks.'))
+      ->setSettings(array(
+        'default_value' => '',
+        'max_length' => 255,
+        'text_processing' => 0,
+      ));
+    $fields['assigned_by'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Assigned By'))
+      ->setDescription(t('Entity ID of the assigner, or blank for system-generated tasks.'));
+    $fields['assigned_to_type'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Assignee Entity Type'))
+      ->setDescription(t('Entity type of the assignee. Typically a user, or blank for system tasks.'))
+      ->setSettings(array(
+        'default_value' => '',
+        'max_length' => 255,
+        'text_processing' => 0,
+      ));
+    $fields['assigned_to'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Assignee'))
+      ->setDescription(t('Entity ID of the assignee, or blank for system-generated tasks.'));
+
+
+    /*
+     * Date fields.
+     */
+    $fields['due_date'] = BaseFieldDefinition::create('timestamp')
+      ->setLabel(t('Due Date'))
+      ->setDescription(t('If assigned to an entity, this is the "due date" that will display. This is not used by system tasks.'));
+    $fields['expire_date'] = BaseFieldDefinition::create('timestamp')
+      ->setLabel(t('Expire Date'))
+      ->setDescription(t('This is an "expiration date" that will force-close the task. For system tasks, this is also the date at which the action should be executed.'));
+    $fields['close_date'] = BaseFieldDefinition::create('timestamp')
+      ->setLabel(t('Close Date'))
+      ->setDescription(t('The date the task was closed.'));
+
+    /*
+     * Additional fields
+     */
+    $fields['status'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Task Status'))
+      ->setDescription(t('The current status of a task.'))
+      ->setSettings(array(
+        'default_value' => 'active',
+        'max_length' => 255,
+        'text_processing' => 0,
+      ));
+    $fields['close_type'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Close Type'))
+      ->setDescription(t('A string representing the reason the task was closed.'))
+      ->setSettings(array(
+        'default_value' => 'active',
+        'max_length' => 255,
+        'text_processing' => 0,
+      ));
+    $fields['task_data'] = BaseFieldDefinition::create('map')
+      ->setLabel(t('Task Data'))
+      ->setDescription(t('This is a freeform serialized array, to be used by custom plugins.'))
+      ->setSettings(array(
+        'default_value' => 'active',
+        'max_length' => 255,
+        'text_processing' => 0,
+      ));
 
     $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Revision translation affected'))

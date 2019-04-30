@@ -1,7 +1,6 @@
 task_api.settings:
-  path: '/task_api/settings'
+  path: '/admin/structure/task_api'
   defaults:
-#                 \Drupal\[module name]\Controller\[ClassName]::[method]
-    _controller: '\Drupal\task_api\Controller\SettingsController::settings'
+    _form: '\Drupal\task_api\Form\TaskAPISettingsForm'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer task_api'

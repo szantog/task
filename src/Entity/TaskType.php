@@ -55,4 +55,41 @@ class TaskType extends ConfigEntityBundleBase implements TaskTypeInterface {
    */
   protected $label;
 
+  /**
+   * The Task type description.
+   *
+   * @var string
+   */
+  protected $description;
+
+  /**
+   * The list of allowed statuses.
+   *
+   * @var array
+   */
+  protected $allowed_statuses;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDescription() {
+    return !empty($this->description) ? $this->description : '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAllowedStatuses() {
+    $statuses = !empty($this->allowed_statuses) ? $this->allowed_statuses : [];
+    $statuses['closed'] = 'closed';
+    return $statuses;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setAllowedStatuses($statuses) {
+    $this->allowed_statuses = $statuses;
+  }
+
 }
