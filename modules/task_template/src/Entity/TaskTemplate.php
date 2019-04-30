@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_note\Entity;
+namespace Drupal\task_template\Entity;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
@@ -11,38 +11,38 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
 
 /**
- * Defines the Task Note entity.
+ * Defines the Task Template entity.
  *
- * @ingroup task_note
+ * @ingroup task_template
  *
  * @ContentEntityType(
- *   id = "task_note",
- *   label = @Translation("Task Note"),
- *   bundle_label = @Translation("Task Note type"),
+ *   id = "task_template",
+ *   label = @Translation("Task Template"),
+ *   bundle_label = @Translation("Task Template type"),
  *   handlers = {
- *     "storage" = "Drupal\task_note\TaskNoteStorage",
+ *     "storage" = "Drupal\task_template\TaskTemplateStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\task_note\TaskNoteListBuilder",
- *     "views_data" = "Drupal\task_note\Entity\TaskNoteViewsData",
- *     "translation" = "Drupal\task_note\TaskNoteTranslationHandler",
+ *     "list_builder" = "Drupal\task_template\TaskTemplateListBuilder",
+ *     "views_data" = "Drupal\task_template\Entity\TaskTemplateViewsData",
+ *     "translation" = "Drupal\task_template\TaskTemplateTranslationHandler",
  *
  *     "form" = {
- *       "default" = "Drupal\task_note\Form\TaskNoteForm",
- *       "add" = "Drupal\task_note\Form\TaskNoteForm",
- *       "edit" = "Drupal\task_note\Form\TaskNoteForm",
- *       "delete" = "Drupal\task_note\Form\TaskNoteDeleteForm",
+ *       "default" = "Drupal\task_template\Form\TaskTemplateForm",
+ *       "add" = "Drupal\task_template\Form\TaskTemplateForm",
+ *       "edit" = "Drupal\task_template\Form\TaskTemplateForm",
+ *       "delete" = "Drupal\task_template\Form\TaskTemplateDeleteForm",
  *     },
- *     "access" = "Drupal\task_note\TaskNoteAccessControlHandler",
+ *     "access" = "Drupal\task_template\TaskTemplateAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\task_note\TaskNoteHtmlRouteProvider",
+ *       "html" = "Drupal\task_template\TaskTemplateHtmlRouteProvider",
  *     },
  *   },
- *   base_table = "task_note",
- *   data_table = "task_note_field_data",
- *   revision_table = "task_note_revision",
- *   revision_data_table = "task_note_field_revision",
+ *   base_table = "task_template",
+ *   data_table = "task_template_field_data",
+ *   revision_table = "task_template_revision",
+ *   revision_data_table = "task_template_field_revision",
  *   translatable = TRUE,
- *   admin_permission = "administer task note entities",
+ *   admin_permission = "administer task template entities",
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "vid",
@@ -54,23 +54,23 @@ use Drupal\user\UserInterface;
  *     "status" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/task_note/{task_note}",
- *     "add-page" = "/admin/structure/task_note/add",
- *     "add-form" = "/admin/structure/task_note/add/{task_note_type}",
- *     "edit-form" = "/admin/structure/task_note/{task_note}/edit",
- *     "delete-form" = "/admin/structure/task_note/{task_note}/delete",
- *     "version-history" = "/admin/structure/task_note/{task_note}/revisions",
- *     "revision" = "/admin/structure/task_note/{task_note}/revisions/{task_note_revision}/view",
- *     "revision_revert" = "/admin/structure/task_note/{task_note}/revisions/{task_note_revision}/revert",
- *     "revision_delete" = "/admin/structure/task_note/{task_note}/revisions/{task_note_revision}/delete",
- *     "translation_revert" = "/admin/structure/task_note/{task_note}/revisions/{task_note_revision}/revert/{langcode}",
- *     "collection" = "/admin/structure/task_note",
+ *     "canonical" = "/admin/structure/task_template/{task_template}",
+ *     "add-page" = "/admin/structure/task_template/add",
+ *     "add-form" = "/admin/structure/task_template/add/{task_template_type}",
+ *     "edit-form" = "/admin/structure/task_template/{task_template}/edit",
+ *     "delete-form" = "/admin/structure/task_template/{task_template}/delete",
+ *     "version-history" = "/admin/structure/task_template/{task_template}/revisions",
+ *     "revision" = "/admin/structure/task_template/{task_template}/revisions/{task_template_revision}/view",
+ *     "revision_revert" = "/admin/structure/task_template/{task_template}/revisions/{task_template_revision}/revert",
+ *     "revision_delete" = "/admin/structure/task_template/{task_template}/revisions/{task_template_revision}/delete",
+ *     "translation_revert" = "/admin/structure/task_template/{task_template}/revisions/{task_template_revision}/revert/{langcode}",
+ *     "collection" = "/admin/structure/task_template",
  *   },
- *   bundle_entity_type = "task_note_type",
- *   field_ui_base_route = "entity.task_note_type.edit_form"
+ *   bundle_entity_type = "task_template_type",
+ *   field_ui_base_route = "entity.task_template_type.edit_form"
  * )
  */
-class TaskNote extends RevisionableContentEntityBase implements TaskNoteInterface {
+class TaskTemplate extends RevisionableContentEntityBase implements TaskTemplateInterface {
 
   use EntityChangedTrait;
 
@@ -115,7 +115,7 @@ class TaskNote extends RevisionableContentEntityBase implements TaskNoteInterfac
       }
     }
 
-    // If no revision author has been set explicitly, make the task_note owner the
+    // If no revision author has been set explicitly, make the task_template owner the
     // revision author.
     if (!$this->getRevisionUser()) {
       $this->setRevisionUserId($this->getOwnerId());
@@ -205,7 +205,7 @@ class TaskNote extends RevisionableContentEntityBase implements TaskNoteInterfac
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Task Note entity.'))
+      ->setDescription(t('The user ID of author of the Task Template entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -230,7 +230,7 @@ class TaskNote extends RevisionableContentEntityBase implements TaskNoteInterfac
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Task Note entity.'))
+      ->setDescription(t('The name of the Task Template entity.'))
       ->setRevisionable(TRUE)
       ->setSettings([
         'max_length' => 50,
@@ -252,7 +252,7 @@ class TaskNote extends RevisionableContentEntityBase implements TaskNoteInterfac
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Task Note is published.'))
+      ->setDescription(t('A boolean indicating whether the Task Template is published.'))
       ->setRevisionable(TRUE)
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', [
@@ -274,33 +274,6 @@ class TaskNote extends RevisionableContentEntityBase implements TaskNoteInterfac
       ->setReadOnly(TRUE)
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE);
-
-    // CUSTOM FIELDS
-    $fields['task'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Task'))
-      ->setDescription(t('Assign the note to a task'))
-      ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'task')
-      ->setSetting('handler', 'default')
-      ->setTranslatable(TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'hidden',
-        'type' => 'author',
-        'weight' => 0,
-        ])
-      ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
-        'weight' => 5,
-        'settings' => [
-           'match_operator' => 'CONTAINS',
-           'size' => '60',
-           'autocomplete_type' => 'tags',
-           'placeholder' => '',
-           ],
-        ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-
 
     return $fields;
   }
