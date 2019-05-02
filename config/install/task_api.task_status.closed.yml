@@ -1,6 +1,10 @@
 uuid: 2bb4b4bd-bea7-440c-a4e9-eb92382e3b20
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  enforced:
+    module:
+      - task_api
 id: closed
 label: Closed
+description: null

@@ -11,5 +11,8 @@ task_api.task_closure_reason.*:
     description:
       type: string
       label: 'Description'
+    locked:
+      type: boolean
+      label: 'Locked from Edit/Delete'
     uuid:
       type: string

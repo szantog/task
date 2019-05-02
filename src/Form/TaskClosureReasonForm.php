@@ -37,6 +37,14 @@ class TaskClosureReasonForm extends EntityForm {
 
     /* You will need additional form elements for your custom properties. */
 
+    $form['description'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Description'),
+      '#maxlength' => 255,
+      '#default_value' => $task_closure_reason->getDescription(),
+      '#description' => $this->t("Label for the Task Closure Reason."),
+    ];
+
     return $form;
   }
 

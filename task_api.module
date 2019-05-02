@@ -98,15 +98,20 @@ Based on this, we will make the following annotation plugins:
 }
 
 /**
- * Implements hook_theme().
+ * Implements hook_mail().
  */
-//function task_api_theme() {
-//  return [
-//    'task_api' => [
-//      'render element' => 'children',
-//    ],
-//  ];
-//}
+function task_api_mail($key, &$message, $params) {
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+  switch ($key) {
+    case 'task_api_mail':
+      $message['from'] = $params['from'];
+      $message['subject'] = $params['subject'];
+      $message['body'] = $params['message'];
+      break;
+  }
+}
 
 /**
  * Implements hook_theme().

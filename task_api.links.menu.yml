@@ -1,10 +1,16 @@
+task_api.settings:
+  title: 'Task Settings'
+  route_name: task_api.settings
+  description: 'List Task entities'
+  parent: system.admin_structure
+  weight: 100
 
 # Task menu items definition
 entity.task.collection:
   title: 'Task list'
   route_name: entity.task.collection
   description: 'List Task entities'
-  parent: system.admin_structure
+  parent: task_api.settings
   weight: 100
 
 # Task type menu items definition
@@ -12,22 +18,22 @@ entity.task_type.collection:
   title: 'Task type'
   route_name: entity.task_type.collection
   description: 'List Task type (bundles)'
-  parent: system.admin_structure
+  parent: task_api.settings
   weight: 99
 
 # Task Closure Reason menu items definition
 entity.task_closure_reason.collection:
-  title: 'Task Closure Reason'
+  title: 'Task Closure Reasons'
   route_name: entity.task_closure_reason.collection
   description: 'List Task Closure Reason (bundles)'
-  parent: system.admin_structure
+  parent: task_api.settings
   weight: 99
 
 # Task Status menu items definition
 entity.task_status.collection:
-  title: 'Task Status'
+  title: 'Task Statuses'
   route_name: entity.task_status.collection
   description: 'List Task Status (bundles)'
-  parent: system.admin_structure
+  parent: task_api.settings
   weight: 99
 

@@ -54,4 +54,32 @@ class TaskStatus extends ConfigEntityBase implements TaskStatusInterface {
    */
   protected $label;
 
+  /**
+   * Whether the Closure Reason is locked for editing.
+   *
+   * @var boolean
+   */
+  protected $locked;
+
+  /**
+   * The Task type description.
+   *
+   * @var string
+   */
+  protected $description;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDescription() {
+    return !empty($this->description) ? $this->description : '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isLocked() {
+    return !empty($this->locked) ? $this->locked : FALSE;
+  }
+
 }

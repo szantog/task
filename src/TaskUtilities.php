@@ -19,4 +19,22 @@ class TaskUtilities {
     return $statuses;
   }
 
+  /**
+   * TODO update default status logic
+   * @param $task_data
+   */
+  public static function createTask($task_data) {
+    if (isset($task_data['type'])) {
+      $type = $task_data['type'];
+      $plugin_manager = \Drupal::service('plugin.manager.task_api_bundle');
+      $plugin_definitions = $plugin_manager->getDefinitions();
+      foreach ($plugin_definitions as $pd) {
+        if (!empty($pd['bundle']) && $pd['bundle'] === $type) {
+          $task_data['status'] = isset($task_data['status']) ?  $task_data['status'] : 'active';
+          $pd['class']::createTask($task_data);
+        }
+      }
+    }
+  }
+
 }

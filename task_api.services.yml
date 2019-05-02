@@ -1,0 +1,7 @@
+services:
+  plugin.manager.task_api_action:
+    class: Drupal\task_api\TaskActionManager
+    arguments: ['@container.namespaces', '@cache.default', '@module_handler']
+  plugin.manager.task_api_bundle:
+    class: Drupal\task_api\TaskBundleManager
+    arguments: ['@container.namespaces', '@cache.default', '@module_handler']
