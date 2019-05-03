@@ -1,3 +1,11 @@
+##special action permissions ##
+use task mark_complete action:
+  title: 'Use Mark Complete Action'
+
+use task dismiss action:
+  title: 'Use Dismiss Action'
+
+## Common management and entity permissions ##
 add task entities:
   title: 'Create new Task entities'
 

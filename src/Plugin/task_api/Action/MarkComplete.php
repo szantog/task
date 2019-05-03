@@ -28,8 +28,10 @@ class MarkComplete extends PluginBase implements TaskActionInterface {
    * Since this is a default, just return what we have.
    */
   public static function doAction(TaskInterface $task, $data = []) {
+    $task->set('status', 'closed');
     $task->set('close_date', time());
     $task->set('close_type', 'completed');
     $task->save();
   }
+
 }

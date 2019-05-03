@@ -6,6 +6,10 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\task_api\TaskUtilities;
+use Drupal\task_api\Entity\TaskType;
 
 /**
  * Implements hook_help().
@@ -18,7 +22,7 @@ function task_api_help($route_name, RouteMatchInterface $route_match) {
       $output .= '<h2>' . t('Task API') . '</h2>';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('Task API allows users to create and assign tasks') . '</p>';
-      $output .= '<p>' . t('<h3>Roadmap Version 1</h3>') . '</p>';
+      $output .= '<h3>' . t('Roadmap Version 1') . '</h3>';
       $output .= '<p>' . t('
 <h3>Entity Types</h3>
 The Task API will have the following entities:<br>
@@ -145,4 +149,28 @@ function task_api_theme_suggestions_task(array $variables) {
   $suggestions[] = 'task__' . $entity->id();
   $suggestions[] = 'task__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
+}
+
+/**
+ * Implements hook_entity_extra_field_info() to add the view fields to relevant entities
+ */
+function task_api_entity_extra_field_info() {
+  $ret = array();
+
+  foreach (TaskType::loadMultiple() as $bundle) {
+    $ret['task'][$bundle->id()]['display']['task_options'] = [
+      'label' => t('Task Options'),
+      'description' => t('Shows the available options for the task.'),
+      'weight' => 10,
+    ];
+  }
+
+  return $ret;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function task_api_task_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  $build['task_options'] = TaskUtilities::getTaskOptions($entity);
 }

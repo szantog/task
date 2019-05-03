@@ -4,3 +4,25 @@ task_api.settings:
     _form: '\Drupal\task_api\Form\TaskAPISettingsForm'
   requirements:
     _permission: 'administer task_api'
+
+task_api.mark_complete:
+  path: /task/{task}/mark_complete
+  defaults:
+    _controller: '\Drupal\task_api\Controller\TaskController::markComplete'
+  options:
+    parameters:
+      task:
+        type: 'entity:task'
+  requirements:
+    _permission: 'use task mark_complete action'
+
+task_api.dismiss:
+  path: /task/{task}/dismiss
+  defaults:
+    _controller: '\Drupal\task_api\Controller\TaskController::dismiss'
+  options:
+    parameters:
+      task:
+        type: 'entity:task'
+  requirements:
+    _permission: 'use task dismiss action'

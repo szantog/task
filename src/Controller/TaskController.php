@@ -7,6 +7,10 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Url;
 use Drupal\task_api\Entity\TaskInterface;
+use Drupal\task_api\Plugin\task_api\Action\MarkComplete;
+use Drupal\task_api\Plugin\task_api\Action\Dismiss;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class TaskController.
@@ -14,6 +18,40 @@ use Drupal\task_api\Entity\TaskInterface;
  *  Returns responses for Task routes.
  */
 class TaskController extends ControllerBase implements ContainerInjectionInterface {
+
+
+  public function redirectToPrevious() {
+    // Return to where we came from
+    $server = Request::createFromGlobals()->server;
+    $return = $server->get('HTTP_REFERER');
+    $http = $server->get('HTTPS') ? 'https://' : 'http://';
+    $domain = $http . $server->get('SERVER_NAME');
+    $return = str_replace($domain, '', $return);
+    $url = Url::fromUserInput($return);
+
+    $response = new RedirectResponse($url->toString());
+    $request = \Drupal::request();
+
+    // Save the session so things like messages get saved.
+    $request->getSession()->save();
+    $response->prepare($request);
+
+    // Make sure to trigger kernel events.
+    \Drupal::service('kernel')->terminate($request, $response);
+    $response->send();
+  }
+
+  public function markComplete(TaskInterface $task) {
+    MarkComplete::doAction($task);
+    \Drupal::messenger()->addStatus('Task was marked as complete');
+    $this->redirectToPrevious();
+  }
+
+  public function dismiss(TaskInterface $task) {
+    Dismiss::doAction($task);
+    \Drupal::messenger()->addStatus('Task was dismissed.');
+    $this->redirectToPrevious();
+  }
 
   /**
    * Displays a Task  revision.

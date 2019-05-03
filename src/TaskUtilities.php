@@ -4,6 +4,7 @@ namespace Drupal\task_api;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\task_api\Entity\TaskStatus;
+use Drupal\task_api\Entity\TaskInterface;
 
 class TaskUtilities {
 
@@ -33,6 +34,21 @@ class TaskUtilities {
           $task_data['status'] = isset($task_data['status']) ?  $task_data['status'] : 'active';
           $pd['class']::createTask($task_data);
         }
+      }
+    }
+  }
+
+  /**
+   * TODO update default status logic
+   * @param $task_data
+   */
+  public static function getTaskOptions(TaskInterface $task) {
+    $type = $task->bundle();
+    $plugin_manager = \Drupal::service('plugin.manager.task_api_bundle');
+    $plugin_definitions = $plugin_manager->getDefinitions();
+    foreach ($plugin_definitions as $pd) {
+      if (!empty($pd['bundle']) && $pd['bundle'] === $type) {
+        return $pd['class']::getTaskOptions($task);
       }
     }
   }

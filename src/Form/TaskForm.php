@@ -4,6 +4,7 @@ namespace Drupal\task_api\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\task_api\TaskUtilities;
 
 /**
  * Form controller for Task edit forms.
@@ -28,6 +29,15 @@ class TaskForm extends ContentEntityForm {
       ];
     }
 
+    $form['status'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Status'),
+      '#default_value' => $this->entity->getStatus() ? $this->entity->getStatus() : 'active',
+      '#options' => TaskUtilities::getAllTaskStatuses(),
+      '#required' => TRUE,
+      '#weight' => 10,
+    ];
+
     $entity = $this->entity;
 
     return $form;
@@ -38,6 +48,7 @@ class TaskForm extends ContentEntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
+    $entity->set('status', $form_state->getValue('status'));
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {

@@ -3,7 +3,10 @@
 namespace Drupal\task_api\Plugin\task_api\Bundle;
 
 use Drupal\Core\Plugin\PluginBase;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 use Drupal\task_api\Entity\Task;
+use Drupal\task_api\Entity\TaskInterface;
 use Drupal\task_api\TaskBundleInterface;
 
 /**
@@ -42,6 +45,15 @@ class SystemTask extends PluginBase implements TaskBundleInterface {
       }
     }
     return $task;
+  }
+
+  public static function getTaskOptions(TaskInterface $task) {
+    $url_complete = Url::fromRoute('task_api.mark_complete', ['task' => $task->id()]);
+    $link_complete = Link::fromTextAndUrl('Mark Complete', $url_complete);
+    $url_dismiss = Url::fromRoute('task_api.dismiss', ['task' => $task->id()]);
+    $link_dismiss = Link::fromTextAndUrl('Dismiss', $url_dismiss);
+
+    return ['#type' => 'markup', '#markup' => implode(', ', [$link_dismiss->toString(), $link_complete->toString()])];
   }
 
 }

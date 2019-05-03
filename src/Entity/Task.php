@@ -151,6 +151,13 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
   /**
    * {@inheritdoc}
    */
+  public function getStatus() {
+    return $this->get('status')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setCreatedTime($timestamp) {
     $this->set('created', $timestamp);
     return $this;
