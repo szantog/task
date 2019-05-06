@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\task_api\Entity\TaskInterface;
+use Drupal\task\Entity\TaskInterface;
 
 /**
  * Defines the storage handler class for Task entities.
@@ -13,7 +13,7 @@ use Drupal\task_api\Entity\TaskInterface;
  * This extends the base storage class, adding required special handling for
  * Task entities.
  *
- * @ingroup task_api
+ * @ingroup task
  */
 class TaskStorage extends SqlContentEntityStorage implements TaskStorageInterface {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api\Entity;
+namespace Drupal\task\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 
@@ -12,14 +12,14 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   label = @Translation("Task Closure Reason"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\task_api\TaskClosureReasonListBuilder",
+ *     "list_builder" = "Drupal\task\TaskClosureReasonListBuilder",
  *     "form" = {
- *       "add" = "Drupal\task_api\Form\TaskClosureReasonForm",
- *       "edit" = "Drupal\task_api\Form\TaskClosureReasonForm",
- *       "delete" = "Drupal\task_api\Form\TaskClosureReasonDeleteForm"
+ *       "add" = "Drupal\task\Form\TaskClosureReasonForm",
+ *       "edit" = "Drupal\task\Form\TaskClosureReasonForm",
+ *       "delete" = "Drupal\task\Form\TaskClosureReasonDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\task_api\TaskClosureReasonHtmlRouteProvider",
+ *       "html" = "Drupal\task\TaskClosureReasonHtmlRouteProvider",
  *     },
  *   },
  *   config_prefix = "task_closure_reason",
@@ -30,11 +30,11 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/task_api/closure_reasons/task_closure_reason/{task_closure_reason}",
- *     "add-form" = "/admin/structure/task_api/closure_reasons/task_closure_reason/add",
- *     "edit-form" = "/admin/structure/task_api/closure_reasons/task_closure_reason/{task_closure_reason}/edit",
- *     "delete-form" = "/admin/structure/task_api/closure_reasons/task_closure_reason/{task_closure_reason}/delete",
- *     "collection" = "/admin/structure/task_api/closure_reasons/task_closure_reason"
+ *     "canonical" = "/admin/structure/task/closure_reasons/task_closure_reason/{task_closure_reason}",
+ *     "add-form" = "/admin/structure/task/closure_reasons/task_closure_reason/add",
+ *     "edit-form" = "/admin/structure/task/closure_reasons/task_closure_reason/{task_closure_reason}/edit",
+ *     "delete-form" = "/admin/structure/task/closure_reasons/task_closure_reason/{task_closure_reason}/delete",
+ *     "collection" = "/admin/structure/task/closure_reasons/task_closure_reason"
  *   }
  * )
  */

@@ -1,10 +1,10 @@
 <?php
 
-namespace Drupal\task_api\Plugin\task_api\Action;
+namespace Drupal\task\Plugin\task\Action;
 
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\task_api\TaskActionInterface;
-use Drupal\task_api\Entity\TaskInterface;
+use Drupal\task\TaskActionInterface;
+use Drupal\task\Entity\TaskInterface;
 
 /**
  * @TaskAction(
@@ -29,8 +29,8 @@ class SendMail extends PluginBase implements TaskActionInterface {
    */
   public static function doAction(TaskInterface $task, $data = []) {
     // TODO: Write mail function.
-    $module = isset($data['module']) ? $data['module'] : 'task_api';
-    $key = isset($data['key']) ? $data['key'] : 'task_api_mail';
+    $module = isset($data['module']) ? $data['module'] : 'task';
+    $key = isset($data['key']) ? $data['key'] : 'task_mail';
     $to = isset($data['to']) ? $data['to'] : '';
     $langcode = isset($data['langcode']) ? $data['langcode'] : '';
     $params = isset($data['params']) ? $data['params'] : [];

@@ -4,7 +4,7 @@ status: true
 dependencies:
   enforced:
     module:
-      - task_api
+      - task
 id: system_task
 label: 'System Task'
 description: null

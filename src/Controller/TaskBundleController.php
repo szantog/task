@@ -3,16 +3,16 @@
  * @file
  */
 
-namespace Drupal\task_api\Controller;
+namespace Drupal\task\Controller;
 
-use Drupal\task_api\TaskBundleManager;
+use Drupal\task\TaskBundleManager;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class TaskBundleController
  *
- * Provides the route and API controller for task_api.
+ * Provides the route and API controller for task.
  */
 class TaskBundleController extends ControllerBase
 {
@@ -22,7 +22,7 @@ class TaskBundleController extends ControllerBase
   /**
    * Constructor.
    *
-   * @param \Drupal\task_api\TaskBundleManager $plugin_manager
+   * @param \Drupal\task\TaskBundleManager $plugin_manager
    */
 
   public function __construct(TaskBundleManager $plugin_manager) {
@@ -34,7 +34,7 @@ class TaskBundleController extends ControllerBase
    */
   public static function create(ContainerInterface $container) {
     // Use the service container to instantiate a new instance of our controller.
-    return new static($container->get('plugin.manager.task_api_bundle'));
+    return new static($container->get('plugin.manager.task_bundle'));
   }
 
 }

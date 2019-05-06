@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
@@ -9,7 +9,7 @@ use Drupal\Core\Link;
 /**
  * Defines a class to build a listing of Task entities.
  *
- * @ingroup task_api
+ * @ingroup task
  */
 class TaskListBuilder extends EntityListBuilder {
 
@@ -27,7 +27,7 @@ class TaskListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\task_api\Entity\Task */
+    /* @var $entity \Drupal\task\Entity\Task */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),

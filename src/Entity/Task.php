@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api\Entity;
+namespace Drupal\task\Entity;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
@@ -13,28 +13,28 @@ use Drupal\user\UserInterface;
 /**
  * Defines the Task entity.
  *
- * @ingroup task_api
+ * @ingroup task
  *
  * @ContentEntityType(
  *   id = "task",
  *   label = @Translation("Task"),
  *   bundle_label = @Translation("Task type"),
  *   handlers = {
- *     "storage" = "Drupal\task_api\TaskStorage",
+ *     "storage" = "Drupal\task\TaskStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\task_api\TaskListBuilder",
- *     "views_data" = "Drupal\task_api\Entity\TaskViewsData",
- *     "translation" = "Drupal\task_api\TaskTranslationHandler",
+ *     "list_builder" = "Drupal\task\TaskListBuilder",
+ *     "views_data" = "Drupal\task\Entity\TaskViewsData",
+ *     "translation" = "Drupal\task\TaskTranslationHandler",
  *
  *     "form" = {
- *       "default" = "Drupal\task_api\Form\TaskForm",
- *       "add" = "Drupal\task_api\Form\TaskForm",
- *       "edit" = "Drupal\task_api\Form\TaskForm",
- *       "delete" = "Drupal\task_api\Form\TaskDeleteForm",
+ *       "default" = "Drupal\task\Form\TaskForm",
+ *       "add" = "Drupal\task\Form\TaskForm",
+ *       "edit" = "Drupal\task\Form\TaskForm",
+ *       "delete" = "Drupal\task\Form\TaskDeleteForm",
  *     },
- *     "access" = "Drupal\task_api\TaskAccessControlHandler",
+ *     "access" = "Drupal\task\TaskAccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\task_api\TaskHtmlRouteProvider",
+ *       "html" = "Drupal\task\TaskHtmlRouteProvider",
  *     },
  *   },
  *   base_table = "task",

@@ -1,4 +1,4 @@
-task_api.task_status.*:
+task.task_status.*:
   type: config_entity
   label: 'Task Status config'
   mapping:

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api\Form;
+namespace Drupal\task\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Class TaskSettingsForm.
  *
- * @ingroup task_api
+ * @ingroup task
  */
 class TaskSettingsForm extends FormBase {
 

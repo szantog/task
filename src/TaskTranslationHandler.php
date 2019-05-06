@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 use Drupal\content_translation\ContentTranslationHandler;
 

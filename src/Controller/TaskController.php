@@ -1,14 +1,14 @@
 <?php
 
-namespace Drupal\task_api\Controller;
+namespace Drupal\task\Controller;
 
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Url;
-use Drupal\task_api\Entity\TaskInterface;
-use Drupal\task_api\Plugin\task_api\Action\MarkComplete;
-use Drupal\task_api\Plugin\task_api\Action\Dismiss;
+use Drupal\task\Entity\TaskInterface;
+use Drupal\task\Plugin\task\Action\MarkComplete;
+use Drupal\task\Plugin\task\Action\Dismiss;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -86,7 +86,7 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
   /**
    * Generates an overview table of older revisions of a Task .
    *
-   * @param \Drupal\task_api\Entity\TaskInterface $task
+   * @param \Drupal\task\Entity\TaskInterface $task
    *   A Task  object.
    *
    * @return array
@@ -113,7 +113,7 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
     $latest_revision = TRUE;
 
     foreach (array_reverse($vids) as $vid) {
-      /** @var \Drupal\task_api\TaskInterface $revision */
+      /** @var \Drupal\task\TaskInterface $revision */
       $revision = $task_storage->loadRevision($vid);
       // Only show revisions that are affected by the language that is being
       // displayed.

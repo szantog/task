@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api\Form;
+namespace Drupal\task\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
@@ -30,7 +30,7 @@ class TaskClosureReasonForm extends EntityForm {
       '#type' => 'machine_name',
       '#default_value' => $task_closure_reason->id(),
       '#machine_name' => [
-        'exists' => '\Drupal\task_api\Entity\TaskClosureReason::load',
+        'exists' => '\Drupal\task\Entity\TaskClosureReason::load',
       ],
       '#disabled' => !$task_closure_reason->isNew(),
     ];

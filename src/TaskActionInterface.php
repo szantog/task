@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Provides Drupal\task_api\TaskActionInterface;
+ * Provides Drupal\task\TaskActionInterface;
  */
 
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 /**
  * An interface for all TaskAction type plugins.

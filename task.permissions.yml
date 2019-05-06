@@ -14,9 +14,9 @@ administer task entities:
   description: 'Allow to access the administration form to configure Task entities.'
   restrict access: true
 
-administer task_api:
-  title: 'Administer Task API Module'
-  description: 'Allow to access the administration form to configure the Task API module.'
+administer task:
+  title: 'Administer Task Module'
+  description: 'Allow to access the administration form to configure the Task module.'
   restrict access: true
 
 delete task entities:

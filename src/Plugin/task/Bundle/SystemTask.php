@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\task_api\Plugin\task_api\Bundle;
+namespace Drupal\task\Plugin\task\Bundle;
 
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-use Drupal\task_api\Entity\Task;
-use Drupal\task_api\Entity\TaskInterface;
-use Drupal\task_api\TaskBundleInterface;
+use Drupal\task\Entity\Task;
+use Drupal\task\Entity\TaskInterface;
+use Drupal\task\TaskBundleInterface;
 
 /**
  * @TaskBundle(
@@ -37,7 +37,7 @@ class SystemTask extends PluginBase implements TaskBundleInterface {
     if (isset($data[0]['actions']['create'])) {
       $action_data = $data[0]['actions']['create'];
       foreach ($action_data as $id => $data) {
-        $plugin_manager = \Drupal::service('plugin.manager.task_api_action');
+        $plugin_manager = \Drupal::service('plugin.manager.task_action');
         $plugin_definitions = $plugin_manager->getDefinitions();
         if(isset($plugin_definitions[$id])) {
           $plugin_definitions[$id]['class']::doAction($task, $data);
@@ -48,9 +48,9 @@ class SystemTask extends PluginBase implements TaskBundleInterface {
   }
 
   public static function getTaskOptions(TaskInterface $task) {
-    $url_complete = Url::fromRoute('task_api.mark_complete', ['task' => $task->id()]);
+    $url_complete = Url::fromRoute('task.mark_complete', ['task' => $task->id()]);
     $link_complete = Link::fromTextAndUrl('Mark Complete', $url_complete);
-    $url_dismiss = Url::fromRoute('task_api.dismiss', ['task' => $task->id()]);
+    $url_dismiss = Url::fromRoute('task.dismiss', ['task' => $task->id()]);
     $link_dismiss = Link::fromTextAndUrl('Dismiss', $url_dismiss);
 
     return ['#type' => 'markup', '#markup' => implode(', ', [$link_dismiss->toString(), $link_complete->toString()])];

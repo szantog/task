@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Provides Drupal\task_api\TaskBundleInterface;
+ * Provides Drupal\task\TaskBundleInterface;
  */
 
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 /**
  * An interface for all TaskBundle type plugins.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api\Entity;
+namespace Drupal\task\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 
@@ -12,14 +12,14 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   label = @Translation("Task Status"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\task_api\TaskStatusListBuilder",
+ *     "list_builder" = "Drupal\task\TaskStatusListBuilder",
  *     "form" = {
- *       "add" = "Drupal\task_api\Form\TaskStatusForm",
- *       "edit" = "Drupal\task_api\Form\TaskStatusForm",
- *       "delete" = "Drupal\task_api\Form\TaskStatusDeleteForm"
+ *       "add" = "Drupal\task\Form\TaskStatusForm",
+ *       "edit" = "Drupal\task\Form\TaskStatusForm",
+ *       "delete" = "Drupal\task\Form\TaskStatusDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\task_api\TaskStatusHtmlRouteProvider",
+ *       "html" = "Drupal\task\TaskStatusHtmlRouteProvider",
  *     },
  *   },
  *   config_prefix = "task_status",
@@ -30,11 +30,11 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/task_api/statuses/task_status/{task_status}",
- *     "add-form" = "/admin/structure/task_api/statuses/task_status/add",
- *     "edit-form" = "/admin/structure/task_api/statuses/task_status/{task_status}/edit",
- *     "delete-form" = "/admin/structure/task_api/statuses/task_status/{task_status}/delete",
- *     "collection" = "/admin/structure/task_api/statuses/task_status"
+ *     "canonical" = "/admin/structure/task/statuses/task_status/{task_status}",
+ *     "add-form" = "/admin/structure/task/statuses/task_status/add",
+ *     "edit-form" = "/admin/structure/task/statuses/task_status/{task_status}/edit",
+ *     "delete-form" = "/admin/structure/task/statuses/task_status/{task_status}/delete",
+ *     "collection" = "/admin/structure/task/statuses/task_status"
  *   }
  * )
  */

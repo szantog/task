@@ -1,19 +1,19 @@
 <?php
 
-namespace Drupal\task_api\Form;
+namespace Drupal\task\Form;
 
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\task_api\Entity\TaskInterface;
+use Drupal\task\Entity\TaskInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a form for reverting a Task revision.
  *
- * @ingroup task_api
+ * @ingroup task
  */
 class TaskRevisionRevertForm extends ConfirmFormBase {
 
@@ -21,7 +21,7 @@ class TaskRevisionRevertForm extends ConfirmFormBase {
   /**
    * The Task revision.
    *
-   * @var \Drupal\task_api\Entity\TaskInterface
+   * @var \Drupal\task\Entity\TaskInterface
    */
   protected $revision;
 
@@ -130,12 +130,12 @@ class TaskRevisionRevertForm extends ConfirmFormBase {
   /**
    * Prepares a revision to be reverted.
    *
-   * @param \Drupal\task_api\Entity\TaskInterface $revision
+   * @param \Drupal\task\Entity\TaskInterface $revision
    *   The revision to be reverted.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    *
-   * @return \Drupal\task_api\Entity\TaskInterface
+   * @return \Drupal\task\Entity\TaskInterface
    *   The prepared revision ready to be stored.
    */
   protected function prepareRevertedRevision(TaskInterface $revision, FormStateInterface $form_state) {

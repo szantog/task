@@ -1,10 +1,10 @@
 <?php
 
-namespace Drupal\task_api\Form;
+namespace Drupal\task\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\task_api\TaskUtilities;
+use Drupal\task\TaskUtilities;
 
 /**
  * Class TaskTypeForm.
@@ -31,7 +31,7 @@ class TaskTypeForm extends EntityForm {
       '#type' => 'machine_name',
       '#default_value' => $task_type->id(),
       '#machine_name' => [
-        'exists' => '\Drupal\task_api\Entity\TaskType::load',
+        'exists' => '\Drupal\task\Entity\TaskType::load',
       ],
       '#disabled' => !$task_type->isNew(),
     ];

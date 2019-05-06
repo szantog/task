@@ -1,4 +1,4 @@
-task_api.task_closure_reason.*:
+task.task_closure_reason.*:
   type: config_entity
   label: 'Task Closure Reason config'
   mapping:

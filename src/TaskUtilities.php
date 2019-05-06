@@ -1,10 +1,10 @@
 <?php
 
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\task_api\Entity\TaskStatus;
-use Drupal\task_api\Entity\TaskInterface;
+use Drupal\task\Entity\TaskStatus;
+use Drupal\task\Entity\TaskInterface;
 
 class TaskUtilities {
 
@@ -27,7 +27,7 @@ class TaskUtilities {
   public static function createTask($task_data) {
     if (isset($task_data['type'])) {
       $type = $task_data['type'];
-      $plugin_manager = \Drupal::service('plugin.manager.task_api_bundle');
+      $plugin_manager = \Drupal::service('plugin.manager.task_bundle');
       $plugin_definitions = $plugin_manager->getDefinitions();
       foreach ($plugin_definitions as $pd) {
         if (!empty($pd['bundle']) && $pd['bundle'] === $type) {
@@ -44,7 +44,7 @@ class TaskUtilities {
    */
   public static function getTaskOptions(TaskInterface $task) {
     $type = $task->bundle();
-    $plugin_manager = \Drupal::service('plugin.manager.task_api_bundle');
+    $plugin_manager = \Drupal::service('plugin.manager.task_bundle');
     $plugin_definitions = $plugin_manager->getDefinitions();
     foreach ($plugin_definitions as $pd) {
       if (!empty($pd['bundle']) && $pd['bundle'] === $type) {

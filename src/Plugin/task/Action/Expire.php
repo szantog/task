@@ -1,10 +1,10 @@
 <?php
 
-namespace Drupal\task_api\Plugin\task_api\Action;
+namespace Drupal\task\Plugin\task\Action;
 
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\task_api\TaskActionInterface;
-use Drupal\task_api\Entity\TaskInterface;
+use Drupal\task\TaskActionInterface;
+use Drupal\task\Entity\TaskInterface;
 
 /**
  * @TaskAction(

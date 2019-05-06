@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api\Entity;
+namespace Drupal\task\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 
@@ -12,14 +12,14 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   label = @Translation("Task type"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\task_api\TaskTypeListBuilder",
+ *     "list_builder" = "Drupal\task\TaskTypeListBuilder",
  *     "form" = {
- *       "add" = "Drupal\task_api\Form\TaskTypeForm",
- *       "edit" = "Drupal\task_api\Form\TaskTypeForm",
- *       "delete" = "Drupal\task_api\Form\TaskTypeDeleteForm"
+ *       "add" = "Drupal\task\Form\TaskTypeForm",
+ *       "edit" = "Drupal\task\Form\TaskTypeForm",
+ *       "delete" = "Drupal\task\Form\TaskTypeDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\task_api\TaskTypeHtmlRouteProvider",
+ *       "html" = "Drupal\task\TaskTypeHtmlRouteProvider",
  *     },
  *   },
  *   config_prefix = "task_type",
@@ -31,11 +31,11 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/task_api/task_type/{task_type}",
- *     "add-form" = "/admin/structure/task_api/task_type/add",
- *     "edit-form" = "/admin/structure/task_api/task_type/{task_type}/edit",
- *     "delete-form" = "/admin/structure/task_api/task_type/{task_type}/delete",
- *     "collection" = "/admin/structure/task_api/task_type"
+ *     "canonical" = "/admin/structure/task/task_type/{task_type}",
+ *     "add-form" = "/admin/structure/task/task_type/add",
+ *     "edit-form" = "/admin/structure/task/task_type/{task_type}/edit",
+ *     "delete-form" = "/admin/structure/task/task_type/{task_type}/delete",
+ *     "collection" = "/admin/structure/task/task_type"
  *   }
  * )
  */

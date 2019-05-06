@@ -4,7 +4,7 @@ status: true
 dependencies:
   enforced:
     module:
-      - task_api
+      - task
 id: completed
 label: Completed
 description: null

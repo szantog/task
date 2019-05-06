@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\task_api\Form;
+namespace Drupal\task\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\task_api\TaskUtilities;
+use Drupal\task\TaskUtilities;
 
 /**
  * Form controller for Task edit forms.
  *
- * @ingroup task_api
+ * @ingroup task
  */
 class TaskForm extends ContentEntityForm {
 
@@ -17,7 +17,7 @@ class TaskForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var $entity \Drupal\task_api\Entity\Task */
+    /* @var $entity \Drupal\task\Entity\Task */
     $form = parent::buildForm($form, $form_state);
 
     if (!$this->entity->isNew()) {

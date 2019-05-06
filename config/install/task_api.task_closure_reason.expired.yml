@@ -4,7 +4,7 @@ status: true
 dependencies:
   enforced:
     module:
-      - task_api
+      - task
 id: expired
 label: Expired
 description: null

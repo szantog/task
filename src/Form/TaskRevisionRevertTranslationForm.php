@@ -1,18 +1,18 @@
 <?php
 
-namespace Drupal\task_api\Form;
+namespace Drupal\task\Form;
 
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\task_api\Entity\TaskInterface;
+use Drupal\task\Entity\TaskInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a form for reverting a Task revision for a single translation.
  *
- * @ingroup task_api
+ * @ingroup task
  */
 class TaskRevisionRevertTranslationForm extends TaskRevisionRevertForm {
 
@@ -93,7 +93,7 @@ class TaskRevisionRevertTranslationForm extends TaskRevisionRevertForm {
   protected function prepareRevertedRevision(TaskInterface $revision, FormStateInterface $form_state) {
     $revert_untranslated_fields = $form_state->getValue('revert_untranslated_fields');
 
-    /** @var \Drupal\task_api\Entity\TaskInterface $default_revision */
+    /** @var \Drupal\task\Entity\TaskInterface $default_revision */
     $latest_revision = $this->TaskStorage->load($revision->id());
     $latest_revision_translation = $latest_revision->getTranslation($this->langcode);
 

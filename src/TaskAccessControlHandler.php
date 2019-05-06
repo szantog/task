@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityInterface;
@@ -10,7 +10,7 @@ use Drupal\Core\Access\AccessResult;
 /**
  * Access controller for the Task entity.
  *
- * @see \Drupal\task_api\Entity\Task.
+ * @see \Drupal\task\Entity\Task.
  */
 class TaskAccessControlHandler extends EntityAccessControlHandler {
 
@@ -18,7 +18,7 @@ class TaskAccessControlHandler extends EntityAccessControlHandler {
    * {@inheritdoc}
    */
   protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
-    /** @var \Drupal\task_api\Entity\TaskInterface $entity */
+    /** @var \Drupal\task\Entity\TaskInterface $entity */
     switch ($operation) {
       case 'view':
         if (!$entity->isPublished()) {

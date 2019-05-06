@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Contains \Drupal\task_api\TaskActionManager.
+ * Contains \Drupal\task\TaskActionManager.
  */
-namespace Drupal\task_api;
+namespace Drupal\task;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 /**
- * Manages task_api plugins.
+ * Manages task plugins.
  */
 class TaskActionManager extends DefaultPluginManager {
   /**
@@ -24,16 +24,16 @@ class TaskActionManager extends DefaultPluginManager {
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    // This tells the plugin system to look for plugins in the 'Plugin/task_api/Action' subfolder inside modules' 'src' folder.
-    $subdir = 'Plugin/task_api/Action';
+    // This tells the plugin system to look for plugins in the 'Plugin/task/Action' subfolder inside modules' 'src' folder.
+    $subdir = 'Plugin/task/Action';
     // The name of the interface that plugins should adhere to.  Drupal will enforce this as a requirement.
-    $plugin_interface = 'Drupal\task_api\TaskActionInterface';
+    $plugin_interface = 'Drupal\task\TaskActionInterface';
     // The name of the annotation class that contains the plugin definition.
-    $plugin_definition_annotation_name = 'Drupal\task_api\Annotation\TaskAction';
+    $plugin_definition_annotation_name = 'Drupal\task\Annotation\TaskAction';
     parent::__construct($subdir, $namespaces, $module_handler, $plugin_interface, $plugin_definition_annotation_name);
-    // This allows the plugin definitions to be altered by an alter hook. The parameter defines the name of the hook, thus: task_api_action_info_alter().
-    $this->alterInfo('task_api_action_info');
+    // This allows the plugin definitions to be altered by an alter hook. The parameter defines the name of the hook, thus: task_action_info_alter().
+    $this->alterInfo('task_action_info');
     // This sets the caching method for our plugin definitions.
-    $this->setCacheBackend($cache_backend, 'task_api_action_info');
+    $this->setCacheBackend($cache_backend, 'task_action_info');
   }
 }

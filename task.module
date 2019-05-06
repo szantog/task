@@ -2,30 +2,30 @@
 
 /**
  * @file
- * Contains task_api.module.
+ * Contains task.module.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
-use Drupal\task_api\TaskUtilities;
-use Drupal\task_api\Entity\TaskType;
+use Drupal\task\TaskUtilities;
+use Drupal\task\Entity\TaskType;
 
 /**
  * Implements hook_help().
  */
-function task_api_help($route_name, RouteMatchInterface $route_match) {
+function task_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
-    // Main module help for the task_api module.
-    case 'help.page.task_api':
+    // Main module help for the task module.
+    case 'help.page.task':
       $output = '';
-      $output .= '<h2>' . t('Task API') . '</h2>';
+      $output .= '<h2>' . t('Task') . '</h2>';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Task API allows users to create and assign tasks') . '</p>';
+      $output .= '<p>' . t('Task allows users to create and assign tasks') . '</p>';
       $output .= '<h3>' . t('Roadmap Version 1') . '</h3>';
       $output .= '<p>' . t('
 <h3>Entity Types</h3>
-The Task API will have the following entities:<br>
+The Task will have the following entities:<br>
 
 <h5>Content Entities</h5>
 <ul>
@@ -90,8 +90,8 @@ Tasks will be fieldable entities with bundles, with each bundle being meant for 
 Based on this, we will make the following annotation plugins:
 <ul>
 <li><b>@TaskAction:</b> Selectable actions for either tasks or templates. Each bundle may specify which actions it would like to use (or leave blank for all). and the Task Action may limit which bundles it is available to.</li>
-<li><b>@TaskAPIBundle:</b> Specify the task post-creation and closing actions for a given bundle, i.e. gathering data on opening the task, sending email on closing, etc.</li>
-<li><b>@TaskAPITemplateBundle:</b> Specify the "create task from template" action per bundle.</li> 
+<li><b>@TaskBundle:</b> Specify the task post-creation and closing actions for a given bundle, i.e. gathering data on opening the task, sending email on closing, etc.</li>
+<li><b>@TaskTemplateBundle:</b> Specify the "create task from template" action per bundle.</li> 
 </ul>     
       ') . '</p>';
 
@@ -104,12 +104,12 @@ Based on this, we will make the following annotation plugins:
 /**
  * Implements hook_mail().
  */
-function task_api_mail($key, &$message, $params) {
+function task_mail($key, &$message, $params) {
   $options = [
     'langcode' => $message['langcode'],
   ];
   switch ($key) {
-    case 'task_api_mail':
+    case 'task_mail':
       $message['from'] = $params['from'];
       $message['subject'] = $params['subject'];
       $message['body'] = $params['message'];
@@ -120,7 +120,7 @@ function task_api_mail($key, &$message, $params) {
 /**
  * Implements hook_theme().
  */
-function task_api_theme() {
+function task_theme() {
   $theme = [];
   $theme['task'] = [
     'render element' => 'elements',
@@ -138,7 +138,7 @@ function task_api_theme() {
 /**
 * Implements hook_theme_suggestions_HOOK().
 */
-function task_api_theme_suggestions_task(array $variables) {
+function task_theme_suggestions_task(array $variables) {
   $suggestions = [];
   $entity = $variables['elements']['#task'];
   $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
@@ -154,7 +154,7 @@ function task_api_theme_suggestions_task(array $variables) {
 /**
  * Implements hook_entity_extra_field_info() to add the view fields to relevant entities
  */
-function task_api_entity_extra_field_info() {
+function task_entity_extra_field_info() {
   $ret = array();
 
   foreach (TaskType::loadMultiple() as $bundle) {
@@ -171,6 +171,6 @@ function task_api_entity_extra_field_info() {
 /**
  * Implements hook_ENTITY_TYPE_view().
  */
-function task_api_task_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+function task_task_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
   $build['task_options'] = TaskUtilities::getTaskOptions($entity);
 }

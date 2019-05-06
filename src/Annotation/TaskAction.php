@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\task_api\Annotation;
+namespace Drupal\task\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
 
 /**
  * Defines a TaskAction annotation object.
  *
- * Plugin Namespace: Plugin\task_api
+ * Plugin Namespace: Plugin\task
  *
  * @see plugin_api
  *

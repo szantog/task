@@ -1,14 +1,14 @@
-task_api.settings:
-  path: '/admin/structure/task_api'
+task.settings:
+  path: '/admin/structure/task'
   defaults:
-    _form: '\Drupal\task_api\Form\TaskAPISettingsForm'
+    _form: '\Drupal\task\Form\TaskSettingsForm'
   requirements:
-    _permission: 'administer task_api'
+    _permission: 'administer task'
 
-task_api.mark_complete:
+task.mark_complete:
   path: /task/{task}/mark_complete
   defaults:
-    _controller: '\Drupal\task_api\Controller\TaskController::markComplete'
+    _controller: '\Drupal\task\Controller\TaskController::markComplete'
   options:
     parameters:
       task:
@@ -16,10 +16,10 @@ task_api.mark_complete:
   requirements:
     _permission: 'use task mark_complete action'
 
-task_api.dismiss:
+task.dismiss:
   path: /task/{task}/dismiss
   defaults:
-    _controller: '\Drupal\task_api\Controller\TaskController::dismiss'
+    _controller: '\Drupal\task\Controller\TaskController::dismiss'
   options:
     parameters:
       task:

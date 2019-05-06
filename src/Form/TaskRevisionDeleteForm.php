@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\task_api\Form;
+namespace Drupal\task\Form;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides a form for deleting a Task revision.
  *
- * @ingroup task_api
+ * @ingroup task
  */
 class TaskRevisionDeleteForm extends ConfirmFormBase {
 
@@ -20,7 +20,7 @@ class TaskRevisionDeleteForm extends ConfirmFormBase {
   /**
    * The Task revision.
    *
-   * @var \Drupal\task_api\Entity\TaskInterface
+   * @var \Drupal\task\Entity\TaskInterface
    */
   protected $revision;
 
