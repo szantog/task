@@ -28,7 +28,6 @@ class SendMail extends PluginBase implements TaskActionInterface {
    * Since this is a default, just return what we have.
    */
   public static function doAction(TaskInterface $task, $data = []) {
-    // TODO: Write mail function.
     $module = isset($data['module']) ? $data['module'] : 'task';
     $key = isset($data['key']) ? $data['key'] : 'task_mail';
     $to = isset($data['to']) ? $data['to'] : '';

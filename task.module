@@ -9,6 +9,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\task\TaskUtilities;
+use Drupal\task\Entity\Task;
 use Drupal\task\Entity\TaskType;
 
 /**
@@ -173,4 +174,25 @@ function task_entity_extra_field_info() {
  */
 function task_task_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
   $build['task_options'] = TaskUtilities::getTaskOptions($entity);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function task_cron() {
+  $query = \Drupal::entityQuery('task');
+  $query->condition('status', 'closed', '<>');
+  $query->condition('expire_date', time(), '<');
+  $result = $query->execute();
+
+  $plugin_manager = \Drupal::service('plugin.manager.task_bundle');
+  $plugin_definitions = $plugin_manager->getDefinitions();
+
+  foreach ($result as $revision_id => $task_id) {
+    $task = Task::load($task_id);
+    $bundle = $task->bundle();
+    if (isset($plugin_definitions[$bundle]['class']) && method_exists($plugin_definitions[$bundle]['class'],'expireTask')) {
+      $plugin_definitions[$bundle]['class']::expireTask($task);
+    }
+  }
 }

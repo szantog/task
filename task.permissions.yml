@@ -5,6 +5,9 @@ use task mark_complete action:
 use task dismiss action:
   title: 'Use Dismiss Action'
 
+use task manual_expire action:
+  title: 'Use Manual Expire Action'
+
 ## Common management and entity permissions ##
 add task entities:
   title: 'Create new Task entities'
