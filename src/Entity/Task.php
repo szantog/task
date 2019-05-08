@@ -247,7 +247,7 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
       ->setDescription(t('The name of the Task entity.'))
       ->setRevisionable(TRUE)
       ->setSettings([
-        'max_length' => 50,
+        'max_length' => 255,
         'text_processing' => 0,
       ])
       ->setDefaultValue('')
