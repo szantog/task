@@ -5,6 +5,7 @@ namespace Drupal\task\Form;
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\task\TaskUtilities;
+use Drupal\user\Entity\User;
 
 /**
  * Form controller for Task edit forms.
@@ -20,25 +21,82 @@ class TaskForm extends ContentEntityForm {
     /* @var $entity \Drupal\task\Entity\Task */
     $form = parent::buildForm($form, $form_state);
 
+    //Variable Logic to initialize before form creation
+//  $user        = User::load(\Drupal::currentUser()->id());
+    $entity      = $this->entity;
+    $values      = $entity->toArray();
+    $assigner    = $values['assigned_by'][0]['value'] ? User::load($values['assigned_by'][0]['value']) : NULL;
+    $assignee    = $values['assigned_to'][0]['value'] ? User::load($values['assigned_to'][0]['value']) : NULL;
+    $entity_type = $values['assigned_by_type'][0]['value'] ? $values['assigned_by_type'][0]['value'] : NULL;
+    $task_type   = $values['type'][0]['target_id'] ? $values['type'][0]['target_id'] : NULL;
+
+    //If a Entity Type is not set on a Task (because it is new) then use the Task Type to select the #default_value for Entity Type.
+    switch ($task_type){
+        case 'user_assigned_task':
+        $task_type = 'user';
+        break;
+        case 'system_task':
+        $task_type = 'system';
+        break;
+        default:
+        $task_type = NULL;
+    }
+
     if (!$this->entity->isNew()) {
       $form['new_revision'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->t('Create new revision'),
+        '#type'          => 'checkbox',
+        '#title'         => $this->t('Create new revision'),
         '#default_value' => FALSE,
-        '#weight' => 10,
+        '#weight'        => 11,
       ];
     }
 
     $form['status'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Status'),
-      '#default_value' => $this->entity->getStatus() ? $this->entity->getStatus() : 'active',
-      '#options' => TaskUtilities::getAllTaskStatuses(),
-      '#required' => TRUE,
-      '#weight' => 10,
+      '#type'          => 'radios',
+      '#title'         => $this->t('Status'),
+      '#default_value' => $entity->getStatus() ? $entity->getStatus() : 'active',
+      '#options'       => TaskUtilities::getAllTaskStatuses(),
+      '#required'      => TRUE,
+      '#weight'        => 12,
     ];
 
-    $entity = $this->entity;
+    $form['assigned_by'] = [
+      '#type'          => 'entity_autocomplete',
+      '#title'         => 'Assigned By:',
+      '#target_type'   => 'user',
+      '#default_value' => $assigner ? $assigner : NULL,
+      '#weight'        => 13,
+    ];
+
+    $form['assigned_to'] = [
+      '#type'          => 'entity_autocomplete',
+      '#title'         => 'Assigned To:',
+      '#target_type'   => 'user',
+      '#default_value' => $assignee ? $assignee : NULL,
+      '#weight'        => 14,
+    ];
+
+    $form['due_date'] = [
+      '#type'        => 'date',
+      '#title'       => 'Due By:',
+      '#description' => 'The time when this task should be completed, but will not automatically close.',
+      '#weight'      => 15,
+    ];
+
+    $form['expire_date'] = [
+      '#type'        => 'date',
+      '#title'       => 'Expire By:',
+      '#description' => 'The date that will automatically force-close this task.',
+      '#weight'      => 16,
+    ];
+
+    $form['assigned_by_type'] = [
+      '#type'          => 'radios',
+      '#title'         => 'Task Type:',
+      '#options'       => array('user' => 'user', 'system' => 'system'),
+      '#default_value' => $entity_type ? $entity_type : $task_type,
+      '#weight'        => 17,
+    ];
 
     return $form;
   }
