@@ -20,6 +20,8 @@ class TaskListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['id'] = $this->t('Task ID');
     $header['name'] = $this->t('Name');
+    $header['status'] = $this->t('Status');
+    $header['expire'] = $this->t('Expiration Date');
     return $header + parent::buildHeader();
   }
 
@@ -29,11 +31,10 @@ class TaskListBuilder extends EntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\task\Entity\Task */
     $row['id'] = $entity->id();
-    $row['name'] = Link::createFromRoute(
-      $entity->label(),
-      'entity.task.edit_form',
-      ['task' => $entity->id()]
-    );
+    $row['name'] = $entity->label();
+    $row['status'] = $entity->getStatus();
+    $expire = $entity->get('expire_date')->value;
+    $row['expire'] = date('Y-m-d H:i:s', $expire);
     return $row + parent::buildRow($entity);
   }
 

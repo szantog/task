@@ -9,6 +9,7 @@ use Drupal\Core\Url;
 use Drupal\task\Entity\TaskInterface;
 use Drupal\task\Plugin\task\Action\MarkComplete;
 use Drupal\task\Plugin\task\Action\Dismiss;
+use Drupal\task\Plugin\task\Bundle\SystemTask;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,7 +27,9 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
     $return = $server->get('HTTP_REFERER');
     $http = $server->get('HTTPS') ? 'https://' : 'http://';
     $domain = $http . $server->get('SERVER_NAME');
+    $port = ':' . $server->get('SERVER_PORT');
     $return = str_replace($domain, '', $return);
+    $return = str_replace($port, '', $return);
     $url = Url::fromUserInput($return);
 
     $response = new RedirectResponse($url->toString());
@@ -41,15 +44,30 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
     $response->send();
   }
 
+  /**
+   * @param TaskInterface $task
+   */
   public function markComplete(TaskInterface $task) {
     MarkComplete::doAction($task);
     \Drupal::messenger()->addStatus('Task was marked as complete');
     $this->redirectToPrevious();
   }
 
+  /**
+   * @param TaskInterface $task
+   */
   public function dismiss(TaskInterface $task) {
     Dismiss::doAction($task);
     \Drupal::messenger()->addStatus('Task was dismissed.');
+    $this->redirectToPrevious();
+  }
+
+  /**
+   * @param TaskInterface $task
+   */
+  public function manual_expire(TaskInterface $task) {
+    SystemTask::expireTask($task);
+    \Drupal::messenger()->addStatus('Task was expired.');
     $this->redirectToPrevious();
   }
 

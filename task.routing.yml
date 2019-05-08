@@ -5,6 +5,8 @@ task.settings:
   requirements:
     _permission: 'administer task'
 
+# TODO: Write Access Functions
+
 task.mark_complete:
   path: /task/{task}/mark_complete
   defaults:
@@ -26,3 +28,14 @@ task.dismiss:
         type: 'entity:task'
   requirements:
     _permission: 'use task dismiss action'
+
+task.manual_expire:
+  path: /task/{task}/manual_expire
+  defaults:
+    _controller: '\Drupal\task\Controller\TaskController::manual_expire'
+  options:
+    parameters:
+      task:
+        type: 'entity:task'
+  requirements:
+    _permission: 'use task manual_expire action'
