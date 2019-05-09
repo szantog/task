@@ -4,6 +4,7 @@ namespace Drupal\task\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element\Date;
 use Drupal\task\TaskUtilities;
 use Drupal\user\Entity\User;
 
@@ -22,13 +23,17 @@ class TaskForm extends ContentEntityForm {
     $form = parent::buildForm($form, $form_state);
 
     //Variable Logic to initialize before form creation
-//  $user        = User::load(\Drupal::currentUser()->id());
-    $entity      = $this->entity;
-    $values      = $entity->toArray();
-    $assigner    = $values['assigned_by'][0]['value'] ? User::load($values['assigned_by'][0]['value']) : NULL;
-    $assignee    = $values['assigned_to'][0]['value'] ? User::load($values['assigned_to'][0]['value']) : NULL;
-    $entity_type = $values['assigned_by_type'][0]['value'] ? $values['assigned_by_type'][0]['value'] : NULL;
-    $task_type   = $values['type'][0]['target_id'] ? $values['type'][0]['target_id'] : NULL;
+//  $user         = User::load(\Drupal::currentUser()->id());
+    $entity       = $this->entity;
+    $values       = $entity->toArray();
+    $assigner     = $values['assigned_by'][0]['value'] ? User::load($values['assigned_by'][0]['value']) : NULL;
+    $assignee     = $values['assigned_to'][0]['value'] ? User::load($values['assigned_to'][0]['value']) : NULL;
+    $entity_type  = $values['assigned_by_type'][0]['value'] ? $values['assigned_by_type'][0]['value'] : NULL;
+    $task_type    = $values['type'][0]['target_id'] ? $values['type'][0]['target_id'] : NULL;
+    $time         = \Drupal::time()->getRequestTime();
+    $exp_time     = \Drupal::time()->getRequestTime() + 604800; //Expires 7 Days after current day
+    $date_stamp   = \Drupal::service('date.formatter')->format($time, 'custom', 'Y-m-d');
+    $expire_stamp = \Drupal::service('date.formatter')->format($exp_time, 'custom', 'Y-m-d');
 
     //If a Entity Type is not set on a Task (because it is new) then use the Task Type to select the #default_value for Entity Type.
     switch ($task_type){
@@ -42,14 +47,14 @@ class TaskForm extends ContentEntityForm {
         $task_type = NULL;
     }
 
-    if (!$this->entity->isNew()) {
-      $form['new_revision'] = [
-        '#type'          => 'checkbox',
-        '#title'         => $this->t('Create new revision'),
-        '#default_value' => FALSE,
-        '#weight'        => 11,
-      ];
-    }
+  if (!$this->entity->isNew()) {
+    $form['new_revision'] = [
+      '#type'          => 'checkbox',
+      '#title'         => $this->t('Create new revision'),
+      '#default_value' => FALSE,
+      '#weight'        => 11,
+    ];
+  }
 
     $form['status'] = [
       '#type'          => 'radios',
@@ -77,17 +82,19 @@ class TaskForm extends ContentEntityForm {
     ];
 
     $form['due_date'] = [
-      '#type'        => 'date',
-      '#title'       => 'Due By:',
-      '#description' => 'The time when this task should be completed, but will not automatically close.',
-      '#weight'      => 15,
+      '#type'          => 'date',
+      '#title'         => 'Due By:',
+      '#description'   => 'The time when this task should be completed, but will not automatically close.',
+      '#default_value' => $date_stamp,
+      '#weight'        => 15,
     ];
 
     $form['expire_date'] = [
-      '#type'        => 'date',
-      '#title'       => 'Expire By:',
-      '#description' => 'The date that will automatically force-close this task.',
-      '#weight'      => 16,
+      '#type'          => 'date',
+      '#title'         => 'Expire By:',
+      '#description'   => 'The date that will automatically force-close this task.',
+      '#default_value' => $expire_stamp,
+      '#weight'        => 16,
     ];
 
     $form['assigned_by_type'] = [
@@ -107,6 +114,16 @@ class TaskForm extends ContentEntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
     $entity->set('status', $form_state->getValue('status'));
+
+    //Get and Set Due_Date from Format 'Y-m-d' to Unix Format in DB.
+    $due_date = $form_state->getValue('due_date');
+    $unix_time = strtotime($due_date);
+    $entity->set('due_date', $unix_time);
+
+    //Get and Set Exp_Date from Format 'Y-m-d' to Unix Format in DB.
+    $exp_date = $form_state->getValue('expire_date');
+    $unix_time = strtotime($exp_date);
+    $entity->set('expire_date', $unix_time);
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {
