@@ -26,12 +26,13 @@ class TaskForm extends ContentEntityForm {
 //  $user         = User::load(\Drupal::currentUser()->id());
     $entity       = $this->entity;
     $values       = $entity->toArray();
-    $assigner     = $values['assigned_by'][0]['value'] ? User::load($values['assigned_by'][0]['value']) : NULL;  //Check if the values are already set in the DB, else NULL.
-    $assignee     = $values['assigned_to'][0]['value'] ? User::load($values['assigned_to'][0]['value']) : NULL;  //Check if the values are already set in the DB, else NULL.
-    $entity_type  = $values['assigned_by_type'][0]['value'] ? $values['assigned_by_type'][0]['value'] : NULL;    //Check if the values are already set in the DB, else NULL.
-    $task_type    = $values['type'][0]['target_id'] ? $values['type'][0]['target_id'] : NULL;                    //Check if the values are already set in the DB, else NULL.
-    $due_date     = $values['due_date'][0]['value'] ? $values['due_date'][0]['value'] : NULL;                    //Check if the values are already set in the DB, else NULL.
-    $exp_date     = $values['expire_date'][0]['value'] ? $values['expire_date'][0]['value'] : NULL;              //Check if the values are already set in the DB, else NULL.
+    $assigner     = $values['assigned_by'][0]['value'] ? User::load($values['assigned_by'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
+    $assignee     = $values['assigned_to'][0]['value'] ? User::load($values['assigned_to'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
+    $entity_type  = $values['assigned_by_type'][0]['value'] ? $values['assigned_by_type'][0]['value'] : NULL;               //Check if the values are already set in the DB, else NULL.
+    $task_type    = $values['type'][0]['target_id'] ? $values['type'][0]['target_id'] : NULL;                               //Check if the values are already set in the DB, else NULL.
+    $due_date     = $values['due_date'][0]['value'] ? $values['due_date'][0]['value'] : NULL;                               //Check if the values are already set in the DB, else NULL.
+    $exp_date     = $values['expire_date'][0]['value'] ? $values['expire_date'][0]['value'] : NULL;                         //Check if the values are already set in the DB, else NULL.
+    $parent       = $values['parent_task'][0]['target_id'] ? $entity::load($values['parent_task'][0]['target_id']) : NULL;  //Check if the values are already set in the DB, else NULL.
     $time         = \Drupal::time()->getRequestTime();
     $exp_time     = \Drupal::time()->getRequestTime() + 604800; //Expires 7 Days after current day
     $date_stamp   = $due_date ? \Drupal::service('date.formatter')->format($due_date, 'custom', 'Y-m-d') : \Drupal::service('date.formatter')->format($time, 'custom', 'Y-m-d');
@@ -51,14 +52,22 @@ class TaskForm extends ContentEntityForm {
         $task_type = NULL;
     }
 
-  if (!$this->entity->isNew()) {
-    $form['new_revision'] = [
-      '#type'          => 'checkbox',
-      '#title'         => $this->t('Create new revision'),
-      '#default_value' => FALSE,
-      '#weight'        => 11,
+    $form['parent_task'] = [
+      '#type'          => 'entity_autocomplete',
+      '#title'         => 'Parent Task:',
+      '#target_type'   => 'task',
+      '#default_value' => $parent ? $parent : NULL,
+      '#weight'        => 10,
     ];
-  }
+
+    if (!$this->entity->isNew()) {
+    $form['new_revision'] = [
+        '#type'          => 'checkbox',
+        '#title'         => $this->t('Create new revision'),
+        '#default_value' => FALSE,
+        '#weight'        => 11,
+      ];
+    }
 
     $form['status'] = [
       '#type'          => 'radios',
