@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+.task {
+    background-color: white;
+    height: auto;
+    width: 730px;
+    padding: 20px;
+    border: 1px solid black;
+    box-shadow: 3px 3px 0px 0px rgba(0,0,0,0.2);
+}
+
+.field__label {
+    color: #000000;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+/*** INDIVIDUAL FIELDS ***/
+/*Parent Task Field*/
+.field--name-parent-task{
+    /*Wrapper*/
+}
+.parent_task_label {
+
+}
+.parent_task_item {
+
+}
+
+/*Assigner Entity Type Field*/
+.field--name-assigned-by-type{
+    /*Wrapper*/
+}
+.assigner_entity_type_label {
+
+}
+.assigner_entity_type_item {
+
+}
+
+/*Assigned By Field*/
+.field--name-assigned-by{
+    /*Wrapper*/
+}
+.assigned_by_label{
+
+}
+.assigned_by_item{
+
+}
+
+/*Assigned To Field*/
+.field--name-assigned-to{
+    /*Wrapper*/
+}
+.assigned_to_label{
+
+}
+.assigned_to_item{
+
+}
+
+/*Due Date Field*/
+.field--name-due-date{
+    /*Wrapper*/
+    display: inline-block;
+    width: 230px;
+}
+.due_date_label{
+
+}
+.due_date_item{
+
+}
+
+/*Expire Date Field*/
+.field--name-expire-date{
+    /*Wrapper*/
+    display: inline-block;
+    width: 230px;
+}
+.expire_date_label{
+
+}
+.expire_date_item{
+
+}
+
+/*Close Date Field*/
+.field--name-close-date{
+    /*Wrapper*/
+    display: inline-block;
+    width: 230px;
+}
+.close_date_label{
+
+}
+.close_date_item{
+
+}
+
+/*Status Field*/
+.field--name-status{
+    /*Wrapper*/
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.status_label{
+
+}
+.status_item{
+
+}
+
+
+/* Task Status Sphere */
+
+.ball {
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin: 0px auto 0;
+    border-radius: 50%;
+}
+
+.active_task {
+    background: radial-gradient(circle at 65% 15%, white 1px, lawngreen 3%, darkgreen 60%, lawngreen 100%);
+}
+
+.pending_task {
+    background: radial-gradient(circle at 65% 15%, white 1px, yellow 3%, darkorange 60%, yellow 100%);
+}
+
+.closed_task {
+    background: radial-gradient(circle at 65% 15%, white 1px, red 3%, darkred 60%, red 100%);
+}

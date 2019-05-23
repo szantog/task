@@ -122,6 +122,7 @@ function task_mail($key, &$message, $params) {
  * Implements hook_theme().
  */
 function task_theme() {
+//All theme files in the template folder must be listed here in order to execute
   $theme = [];
   $theme['task'] = [
     'render element' => 'elements',
@@ -132,6 +133,39 @@ function task_theme() {
     'render element' => 'content',
     'variables' => ['content' => NULL],
     'file' => 'task.page.inc',
+  ];
+  //Base Hook is *REQUIRED to inherit and overwrite a base field
+  $theme['field__parent_task'] = [
+    'template' => 'fields/field--parent-task',
+    'base hook' => 'field',
+  ];
+  $theme['field__assigned_by_type'] = [
+    'template' => 'fields/field--assigned-by-type',
+    'base hook' => 'field',
+  ];
+  $theme['field__assigned_by'] = [
+    'template' => 'fields/field--assigned-by',
+    'base hook' => 'field',
+  ];
+  $theme['field__assigned_to'] = [
+    'template' => 'fields/field--assigned-to',
+    'base hook' => 'field',
+  ];
+  $theme['field__due_date'] = [
+    'template' => 'fields/field--due-date',
+    'base hook' => 'field',
+  ];
+  $theme['field__expire_date'] = [
+    'template' => 'fields/field--expire-date',
+    'base hook' => 'field',
+  ];
+  $theme['field__close_date'] = [
+    'template' => 'fields/field--close-date',
+    'base hook' => 'field',
+  ];
+  $theme['field__status'] = [
+    'template' => 'fields/field--status',
+    'base hook' => 'field',
   ];
   return $theme;
 }

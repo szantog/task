@@ -279,7 +279,13 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
       ->setLabel(t('Parent Task'))
       ->setDescription(t('The parent task, if this a a sub-task.'))
       ->setSetting('target_type', 'task')
-      ->setSetting('handler', 'default');
+      ->setSetting('handler', 'default')
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
     $fields['assigned_by_type'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Assigner Entity Type'))
       ->setDescription(t('Entity type of the assignee. Typically a user, or blank for system tasks.'))
@@ -287,10 +293,22 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
         'default_value' => '',
         'max_length' => 255,
         'text_processing' => 0,
-      ));
+      ))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
     $fields['assigned_by'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Assigned By'))
-      ->setDescription(t('Entity ID of the assigner, or blank for system-generated tasks.'));
+      ->setDescription(t('Entity ID of the assigner, or blank for system-generated tasks.'))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
     $fields['assigned_to_type'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Assignee Entity Type'))
       ->setDescription(t('Entity type of the assignee. Typically a user, or blank for system tasks.'))
@@ -298,24 +316,53 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
         'default_value' => '',
         'max_length' => 255,
         'text_processing' => 0,
-      ));
+      ))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
     $fields['assigned_to'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Assignee'))
-      ->setDescription(t('Entity ID of the assignee, or blank for system-generated tasks.'));
-
+      ->setDescription(t('Entity ID of the assignee, or blank for system-generated tasks.'))
+      ->setDisplayOptions('view', [
+          'label' => 'above',
+          'type' => 'parent',
+          'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
 
     /*
      * Date fields.
      */
     $fields['due_date'] = BaseFieldDefinition::create('timestamp')
       ->setLabel(t('Due Date'))
-      ->setDescription(t('If assigned to an entity, this is the "due date" that will display. This is not used by system tasks.'));
+      ->setDescription(t('If assigned to an entity, this is the "due date" that will display. This is not used by system tasks.'))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
     $fields['expire_date'] = BaseFieldDefinition::create('timestamp')
       ->setLabel(t('Expire Date'))
-      ->setDescription(t('This is an "expiration date" that will force-close the task. For system tasks, this is also the date at which the action should be executed.'));
+      ->setDescription(t('This is an "expiration date" that will force-close the task. For system tasks, this is also the date at which the action should be executed.'))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
     $fields['close_date'] = BaseFieldDefinition::create('timestamp')
       ->setLabel(t('Close Date'))
-      ->setDescription(t('The date the task was closed.'));
+      ->setDescription(t('The date the task was closed.'))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
 
     /*
      * Additional fields
@@ -327,7 +374,13 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
         'default_value' => 'active',
         'max_length' => 255,
         'text_processing' => 0,
-      ));
+      ))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
     $fields['close_type'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Close Type'))
       ->setDescription(t('A string representing the reason the task was closed.'))

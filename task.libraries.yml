@@ -1,0 +1,4 @@
+tasktheming:             #Name of your library
+  css:                   #Target of file type (css/js)
+    theme:               #Target of style (theme)
+      css/task.css: {}   #File Directory of your css theme

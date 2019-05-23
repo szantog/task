@@ -15,6 +15,9 @@
  * @ingroup themeable
  */
 #}
+{#This twig file imports all the CSS files from the library 'tasktheming'#}
+{{ attach_library('task/tasktheming') }}
+
 <div{{ attributes.addClass('task') }}>
   {% if content %}
     {{- content -}}
