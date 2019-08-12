@@ -51,6 +51,7 @@ class TaskUtilities {
         return $pd['class']::getTaskOptions($task);
       }
     }
+    return t('options not yet determined');
   }
 
 }
