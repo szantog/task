@@ -26,13 +26,13 @@ class TaskForm extends ContentEntityForm {
 //  $user         = User::load(\Drupal::currentUser()->id());
     $entity       = $this->entity;
     $values       = $entity->toArray();
-    $assigner     = $values['assigned_by'][0]['value'] ? User::load($values['assigned_by'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
-    $assignee     = $values['assigned_to'][0]['value'] ? User::load($values['assigned_to'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
-    $entity_type  = $values['assigned_by_type'][0]['value'] ? $values['assigned_by_type'][0]['value'] : NULL;               //Check if the values are already set in the DB, else NULL.
-    $task_type    = $values['type'][0]['target_id'] ? $values['type'][0]['target_id'] : NULL;                               //Check if the values are already set in the DB, else NULL.
-    $due_date     = $values['due_date'][0]['value'] ? $values['due_date'][0]['value'] : NULL;                               //Check if the values are already set in the DB, else NULL.
-    $exp_date     = $values['expire_date'][0]['value'] ? $values['expire_date'][0]['value'] : NULL;                         //Check if the values are already set in the DB, else NULL.
-    $parent       = $values['parent_task'][0]['target_id'] ? $entity::load($values['parent_task'][0]['target_id']) : NULL;  //Check if the values are already set in the DB, else NULL.
+    $assigner     = isset($values['assigned_by'][0]['value']) ? User::load($values['assigned_by'][0]['value']) : User::load(\Drupal::currentUser()->id());             //Check if the values are already set in the DB, else NULL.
+    $assignee     = isset($values['assigned_to'][0]['value']) ? User::load($values['assigned_to'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
+    $assign_type  = isset($values['assigned_by_type'][0]['value']) ? $values['assigned_by_type'][0]['value'] : NULL;               //Check if the values are already set in the DB, else NULL.
+    $task_type    = isset($values['type'][0]['target_id']) ? $values['type'][0]['target_id'] : NULL;                               //Check if the values are already set in the DB, else NULL.
+    $due_date     = isset($values['due_date'][0]['value']) ? $values['due_date'][0]['value'] : NULL;                               //Check if the values are already set in the DB, else NULL.
+    $exp_date     = isset($values['expire_date'][0]['value']) ? $values['expire_date'][0]['value'] : NULL;                         //Check if the values are already set in the DB, else NULL.
+    $parent       = isset($values['parent_task'][0]['target_id']) ? $entity::load($values['parent_task'][0]['target_id']) : NULL;  //Check if the values are already set in the DB, else NULL.
     $time         = \Drupal::time()->getRequestTime();
     $exp_time     = \Drupal::time()->getRequestTime() + 604800; //Expires 7 Days after current day
     $date_stamp   = $due_date ? \Drupal::service('date.formatter')->format($due_date, 'custom', 'Y-m-d') : \Drupal::service('date.formatter')->format($time, 'custom', 'Y-m-d');
@@ -40,8 +40,8 @@ class TaskForm extends ContentEntityForm {
 
 //    kint($values);
 
-    //If a Entity Type is not set on a Task (because it is new) then use the Task Type to select the #default_value for Entity Type.
-    switch ($task_type){
+    // If an Entity Type is not set on a Task (because it is new) then use the Task Type to select the #default_value for Entity Type.
+    switch ($task_type) {
         case 'user_assigned_task':
         $task_type = 'user';
         break;
@@ -78,13 +78,15 @@ class TaskForm extends ContentEntityForm {
       '#weight'        => 12,
     ];
 
-    $form['assigned_by'] = [
-      '#type'          => 'entity_autocomplete',
-      '#title'         => 'Assigned By:',
-      '#target_type'   => 'user',
-      '#default_value' => $assigner ? $assigner : NULL,
-      '#weight'        => 13,
-    ];
+    if ($task_type !== 'system') {
+      $form['assigned_by'] = [
+        '#type'          => 'entity_autocomplete',
+        '#title'         => 'Assigned By:',
+        '#target_type'   => 'user',
+        '#default_value' => $assigner ? $assigner : NULL,
+        '#weight'        => 13,
+      ];
+    }
 
     $form['assigned_to'] = [
       '#type'          => 'entity_autocomplete',
@@ -114,7 +116,7 @@ class TaskForm extends ContentEntityForm {
       '#type'          => 'radios',
       '#title'         => 'Task Type:',
       '#options'       => array('user' => 'user', 'system' => 'system'),
-      '#default_value' => $entity_type ? $entity_type : $task_type,
+      '#default_value' => $assign_type ? $assign_type : $task_type,
       '#weight'        => 17,
     ];
 
@@ -150,17 +152,22 @@ class TaskForm extends ContentEntityForm {
       $entity->setNewRevision(FALSE);
     }
 
+    $task_type = $form_state->getValue('assigned_by_type');
+    if ($task_type === 'system') {
+      $entity->set('assigned_by', NULL);
+    }
+
     $status = parent::save($form, $form_state);
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Task.', [
+        \Drupal::messenger()->addMessage($this->t('Created the %label Task.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label Task.', [
+        \Drupal::messenger()->addMessage($this->t('Saved the %label Task.', [
           '%label' => $entity->label(),
         ]));
     }
