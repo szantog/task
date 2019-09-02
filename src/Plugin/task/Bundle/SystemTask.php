@@ -81,7 +81,7 @@ class SystemTask extends PluginBase implements TaskBundleInterface {
     $url_expire = Url::fromRoute('task.manual_expire', ['task' => $task->id()]);
     $link_expire = Link::fromTextAndUrl('Expire Manually', $url_expire);
 
-    return ['#type' => 'markup', '#markup' => implode(', ', [$link_dismiss->toString(), $link_complete->toString(), $link_expire->toString()])];
+    return ['#type' => 'markup', '#markup' => implode(', ', [$link_dismiss->toString()->getGeneratedLink(), $link_complete->toString()->getGeneratedLink(), $link_expire->toString()->getGeneratedLink()])];
   }
 
 }

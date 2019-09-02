@@ -20,6 +20,7 @@ class TaskListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['id'] = $this->t('Task ID');
     $header['name'] = $this->t('Name');
+    $header['type'] = $this->t('Type');
     $header['status'] = $this->t('Status');
     $header['expire'] = $this->t('Expiration Date');
     $header['close'] = $this->t('Close Date');
@@ -34,6 +35,7 @@ class TaskListBuilder extends EntityListBuilder {
     /* @var $entity \Drupal\task\Entity\Task */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute($entity->label(), 'entity.task.canonical', ['task' => $entity->id()]);
+    $row['type'] = $entity->bundle();
     $row['status'] = $entity->getStatus();
     $expire = $entity->get('expire_date')->value;
     $row['expire'] = date('Y-m-d H:i:s', $expire);
