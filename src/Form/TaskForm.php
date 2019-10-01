@@ -26,7 +26,7 @@ class TaskForm extends ContentEntityForm {
 //  $user         = User::load(\Drupal::currentUser()->id());
     $entity       = $this->entity;
     $values       = $entity->toArray();
-    $assigner     = isset($values['assigned_by'][0]['value']) ? User::load($values['assigned_by'][0]['value']) : User::load(\Drupal::currentUser()->id());             //Check if the values are already set in the DB, else NULL.
+    $assigner     = isset($values['assigned_by'][0]['value']) ? User::load($values['assigned_by'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
     $assignee     = isset($values['assigned_to'][0]['value']) ? User::load($values['assigned_to'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
     $assign_type  = isset($values['assigned_by_type'][0]['value']) ? $values['assigned_by_type'][0]['value'] : NULL;               //Check if the values are already set in the DB, else NULL.
     $task_type    = isset($values['type'][0]['target_id']) ? $values['type'][0]['target_id'] : NULL;                               //Check if the values are already set in the DB, else NULL.
@@ -37,8 +37,6 @@ class TaskForm extends ContentEntityForm {
     $exp_time     = \Drupal::time()->getRequestTime() + 604800; //Expires 7 Days after current day
     $date_stamp   = $due_date ? \Drupal::service('date.formatter')->format($due_date, 'custom', 'Y-m-d') : \Drupal::service('date.formatter')->format($time, 'custom', 'Y-m-d');
     $expire_stamp = $exp_date ? \Drupal::service('date.formatter')->format($exp_date, 'custom', 'Y-m-d') : \Drupal::service('date.formatter')->format($exp_time, 'custom', 'Y-m-d');
-
-//    kint($values);
 
     // If an Entity Type is not set on a Task (because it is new) then use the Task Type to select the #default_value for Entity Type.
     switch ($task_type) {

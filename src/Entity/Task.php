@@ -8,6 +8,7 @@ use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 
 /**
@@ -132,6 +133,43 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
   }
 
   /**
+   * @param string $field
+   * @return bool|\Drupal\Core\Entity\EntityInterface|null
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getAssignmentEntity($field = 'assigned_to') {
+    if (in_array($field, ['assigned_to', 'assigned_by'])) {
+      $entity_id = $this->get($field)->getValue();
+      $entity_type = $this->get($field . '_type')->getValue();
+      $entity_id = isset($entity_id[0]['value']) ? $entity_id[0]['value'] : 0;
+      $entity_type = isset($entity_type[0]['value']) ? $entity_type[0]['value'] : FALSE;
+      if ($entity_id && $entity_type) {
+        $entity = \Drupal::entityTypeManager()
+          ->getStorage($entity_type)
+          ->load($entity_id);
+        return $entity;
+      }
+    }
+    // Either we had the wrong field value, or incomplete data.
+    return FALSE;
+  }
+
+  /**
+   * @return bool|\Drupal\Core\Entity\EntityInterface|null
+   */
+  public function getAssignee() {
+    return $this->getAssignmentEntity('assigned_to');
+  }
+
+  /**
+   * @return bool|\Drupal\Core\Entity\EntityInterface|null
+   */
+  public function getAssigner() {
+    return $this->getAssignmentEntity('assigned_by');
+  }
+
+  /**
    * Not used, but part of the RevisionableContentEntityBase class.
    * @param string $name
    * @return $this|TaskInterface
@@ -224,23 +262,6 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE);
-//      ->setDisplayOptions('view', [
-//        'label' => 'hidden',
-//        'type' => 'author',
-//        'weight' => 0,
-//      ])
-//      ->setDisplayOptions('form', [
-//        'type' => 'entity_reference_autocomplete',
-//        'weight' => 5,
-//        'settings' => [
-//          'match_operator' => 'CONTAINS',
-//          'size' => '60',
-//          'autocomplete_type' => 'tags',
-//          'placeholder' => '',
-//        ],
-//      ])
-//      ->setDisplayConfigurable('form', TRUE)
-//      ->setDisplayConfigurable('view', TRUE);
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
