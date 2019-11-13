@@ -321,9 +321,11 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
         'weight' => 0,
       ])
       ->setDisplayConfigurable('view', TRUE);
-    $fields['assigned_by'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Assigned By'))
-      ->setDescription(t('Entity ID of the assigner, or blank for system-generated tasks.'))
+    $fields['assigned_by'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Assigner'))
+      ->setDescription(t('The User who assigned the task, or blank for system tasks.'))
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler', 'default')
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'parent',
@@ -344,15 +346,19 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
         'weight' => 0,
       ])
       ->setDisplayConfigurable('view', TRUE);
-    $fields['assigned_to'] = BaseFieldDefinition::create('integer')
+    $fields['assigned_to'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Assignee'))
-      ->setDescription(t('Entity ID of the assignee, or blank for system-generated tasks.'))
+      ->setDescription(t('The User to whom the task is assigned.'))
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler', 'default')
       ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'parent',
-          'weight' => 0,
+        'label' => 'above',
+        'type' => 'parent',
+        'weight' => 0,
       ])
       ->setDisplayConfigurable('view', TRUE);
+
+
 
     /*
      * Date fields.
