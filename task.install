@@ -33,3 +33,113 @@ function task_update_8201(&$sandbox) {
   $schema = Database::getConnection()->schema();
   $schema->changeField('task_field_data', 'name', 'name', $spec) ;
 }
+
+/**
+ * Update "Assigned By" field
+ */
+function task_update_8202(&$sandbox) {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $bundle_of = 'task';
+
+  $storage = $entity_type_manager->getStorage($bundle_of);
+  $bundle_definition = $entity_type_manager->getDefinition($bundle_of);
+  // Sometimes the primary key isn't 'id'. e.g. 'eid' or 'item_id'.
+  $id_key = $bundle_definition->getKey('id');
+  // If there is no data table defined then use the base table.
+  $table_name = $storage->getDataTable() ?: $storage->getBaseTable();
+  $database = \Drupal::database();
+  $definition_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // Store the existing values.
+  $status_values = $database->select($table_name)
+    ->fields($table_name, [$id_key, 'assigned_by'])
+    ->execute()
+    ->fetchAllKeyed();
+
+  // Clear out the values.
+  $database->update($table_name)
+    ->fields(['assigned_by' => NULL])
+    ->execute();
+
+  // Uninstall the field.
+  $field_storage_definition = $definition_manager->getFieldStorageDefinition('assigned_by', $bundle_of);
+  $definition_manager->uninstallFieldStorageDefinition($field_storage_definition);
+
+  // Create a new field definition.
+  $new_field = \Drupal\Core\Field\BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Assigned by'))
+    ->setDescription(t('The User who assigned the task, or blank for system tasks.'))
+    ->setRevisionable(TRUE)
+    ->setSetting('target_type', 'user')
+    ->setSetting('handler', 'default')
+    ->setTranslatable(TRUE)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+
+  // Install the new definition.
+  $definition_manager->installFieldStorageDefinition('assigned_by', $bundle_of, $bundle_of, $new_field);
+
+  // Restore the values.
+  foreach ($status_values as $id => $value) {
+    $database->update($table_name)
+      ->fields(['assigned_by' => $value])
+      ->condition($id_key, $id)
+      ->execute();
+  }
+
+}
+
+/**
+ * Update "Assigned To" field
+ */
+function task_update_8203(&$sandbox) {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $bundle_of = 'task';
+
+  $storage = $entity_type_manager->getStorage($bundle_of);
+  $bundle_definition = $entity_type_manager->getDefinition($bundle_of);
+  // Sometimes the primary key isn't 'id'. e.g. 'eid' or 'item_id'.
+  $id_key = $bundle_definition->getKey('id');
+  // If there is no data table defined then use the base table.
+  $table_name = $storage->getDataTable() ?: $storage->getBaseTable();
+  $database = \Drupal::database();
+  $definition_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // Store the existing values.
+  $status_values = $database->select($table_name)
+    ->fields($table_name, [$id_key, 'assigned_to'])
+    ->execute()
+    ->fetchAllKeyed();
+
+  // Clear out the values.
+  $database->update($table_name)
+    ->fields(['assigned_to' => NULL])
+    ->execute();
+
+  // Uninstall the field.
+  $field_storage_definition = $definition_manager->getFieldStorageDefinition('assigned_to', $bundle_of);
+  $definition_manager->uninstallFieldStorageDefinition($field_storage_definition);
+
+  // Create a new field definition.
+  $new_field = \Drupal\Core\Field\BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Assigned to'))
+    ->setDescription(t('The User to whom the task is assigned.'))
+    ->setRevisionable(TRUE)
+    ->setSetting('target_type', 'user')
+    ->setSetting('handler', 'default')
+    ->setTranslatable(TRUE)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+
+  // Install the new definition.
+  $definition_manager->installFieldStorageDefinition('assigned_to', $bundle_of, $bundle_of, $new_field);
+
+  // Restore the values.
+  foreach ($status_values as $id => $value) {
+    $database->update($table_name)
+      ->fields(['assigned_to' => $value])
+      ->condition($id_key, $id)
+      ->execute();
+  }
+
+}

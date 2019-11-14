@@ -141,9 +141,10 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
   public function getAssignmentEntity($field = 'assigned_to') {
     if (in_array($field, ['assigned_to', 'assigned_by'])) {
       $entity_id = $this->get($field)->getValue();
-      $entity_type = $this->get($field . '_type')->getValue();
       $entity_id = isset($entity_id[0]['value']) ? $entity_id[0]['value'] : 0;
-      $entity_type = isset($entity_type[0]['value']) ? $entity_type[0]['value'] : FALSE;
+//      $entity_type = $this->get($field . '_type')->getValue();
+//      $entity_type = isset($entity_type[0]['value']) ? $entity_type[0]['value'] : FALSE;
+      $entity_type = 'user';
       if ($entity_id && $entity_type) {
         $entity = \Drupal::entityTypeManager()
           ->getStorage($entity_type)
@@ -315,23 +316,7 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
         'max_length' => 255,
         'text_processing' => 0,
       ))
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'parent',
-        'weight' => 0,
-      ])
-      ->setDisplayConfigurable('view', TRUE);
-    $fields['assigned_by'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Assigner'))
-      ->setDescription(t('The User who assigned the task, or blank for system tasks.'))
-      ->setSetting('target_type', 'user')
-      ->setSetting('handler', 'default')
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'parent',
-        'weight' => 0,
-      ])
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', FALSE);
     $fields['assigned_to_type'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Assignee Entity Type'))
       ->setDescription(t('Entity type of the assignee. Typically a user, or blank for system tasks.'))
@@ -340,22 +325,24 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
         'max_length' => 255,
         'text_processing' => 0,
       ))
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'parent',
-        'weight' => 0,
-      ])
-      ->setDisplayConfigurable('view', TRUE);
-    $fields['assigned_to'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Assignee'))
-      ->setDescription(t('The User to whom the task is assigned.'))
+      ->setDisplayConfigurable('view', FALSE);
+    $fields['assigned_by'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Assigned by'))
+      ->setDescription(t('The User who assigned the task, or blank for system tasks.'))
+      ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'parent',
-        'weight' => 0,
-      ])
+      ->setTranslatable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+    $fields['assigned_to'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Assigned to'))
+      ->setDescription(t('The User to whom the task is assigned.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler', 'default')
+      ->setTranslatable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
 
