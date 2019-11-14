@@ -26,8 +26,8 @@ class TaskForm extends ContentEntityForm {
 //  $user         = User::load(\Drupal::currentUser()->id());
     $entity       = $this->entity;
     $values       = $entity->toArray();
-    $assigner     = isset($values['assigned_by'][0]['value']) ? User::load($values['assigned_by'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
-    $assignee     = isset($values['assigned_to'][0]['value']) ? User::load($values['assigned_to'][0]['value']) : NULL;             //Check if the values are already set in the DB, else NULL.
+    $assigner     = isset($values['assigned_by'][0]['target_id']) ? User::load($values['assigned_by'][0]['target_id']) : NULL;             //Check if the values are already set in the DB, else NULL.
+    $assignee     = isset($values['assigned_to'][0]['target_id']) ? User::load($values['assigned_to'][0]['target_id']) : NULL;             //Check if the values are already set in the DB, else NULL.
     $assign_type  = isset($values['assigned_by_type'][0]['value']) ? $values['assigned_by_type'][0]['value'] : NULL;               //Check if the values are already set in the DB, else NULL.
     $task_type    = isset($values['type'][0]['target_id']) ? $values['type'][0]['target_id'] : NULL;                               //Check if the values are already set in the DB, else NULL.
     $due_date     = isset($values['due_date'][0]['value']) ? $values['due_date'][0]['value'] : NULL;                               //Check if the values are already set in the DB, else NULL.
