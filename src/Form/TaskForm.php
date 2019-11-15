@@ -89,13 +89,24 @@ class TaskForm extends ContentEntityForm {
 
     //Get and Set Due_Date from Format 'Y-m-d' to Unix Format in DB.
     $due_date = $form_state->getValue('due_date');
-    $unix_time = strtotime($due_date);
-    $entity->set('due_date', $unix_time);
+    if ($due_date) {
+      $unix_time = strtotime($due_date);
+      $entity->set('due_date', $unix_time);
+    }
+    else {
+      $entity->set('due_date', NULL);
+    }
 
     //Get and Set Exp_Date from Format 'Y-m-d' to Unix Format in DB.
     $exp_date = $form_state->getValue('expire_date');
-    $unix_time = strtotime($exp_date);
-    $entity->set('expire_date', $unix_time);
+    if ($exp_date) {
+      $unix_time = strtotime($exp_date);
+      $entity->set('expire_date', $unix_time);
+    }
+    else {
+      $entity->set('expire_date', NULL);
+    }
+
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {

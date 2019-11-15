@@ -165,6 +165,8 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
 
   /**
    * @return bool|\Drupal\Core\Entity\EntityInterface|null
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function getAssigner() {
     return $this->getAssignmentEntity('assigned_by');
