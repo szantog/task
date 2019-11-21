@@ -23,34 +23,17 @@ class TaskForm extends ContentEntityForm {
     /* @var $entity \Drupal\task\Entity\Task */
     $form = parent::buildForm($form, $form_state);
 
-    //Variable Logic to initialize before form creation
-//  $user         = User::load(\Drupal::currentUser()->id());
+    // Variable Logic to initialize before form creation
     $entity       = $this->entity;
     $values       = $entity->toArray();
-    //dpm($values);
-//    $assigner     = isset($values['assigned_by'][0]['target_id']) ? User::load($values['assigned_by'][0]['target_id']) : NULL;             //Check if the values are already set in the DB, else NULL.
-//    $assignee     = isset($values['assigned_to'][0]['target_id']) ? User::load($values['assigned_to'][0]['target_id']) : NULL;             //Check if the values are already set in the DB, else NULL.
-//    $assign_type  = isset($values['assigned_by_type'][0]['value']) ? $values['assigned_by_type'][0]['value'] : NULL;               //Check if the values are already set in the DB, else NULL.
-    $task_type    = isset($values['type'][0]['target_id']) ? $values['type'][0]['target_id'] : NULL;                               //Check if the values are already set in the DB, else NULL.
-    $due_date     = isset($values['due_date'][0]['value']) ? $values['due_date'][0]['value'] : NULL;                               //Check if the values are already set in the DB, else NULL.
-    $exp_date     = isset($values['expire_date'][0]['value']) ? $values['expire_date'][0]['value'] : NULL;                         //Check if the values are already set in the DB, else NULL.
-    $parent       = isset($values['parent_task'][0]['target_id']) ? $entity::load($values['parent_task'][0]['target_id']) : NULL;  //Check if the values are already set in the DB, else NULL.
-    $time         = \Drupal::time()->getRequestTime();
-    $exp_time     = \Drupal::time()->getRequestTime() + 604800; //Expires 7 Days after current day
-    $date_stamp   = $due_date ? \Drupal::service('date.formatter')->format($due_date, 'custom', 'Y-m-d') : \Drupal::service('date.formatter')->format($time, 'custom', 'Y-m-d');
-    $expire_stamp = $exp_date ? \Drupal::service('date.formatter')->format($exp_date, 'custom', 'Y-m-d') : \Drupal::service('date.formatter')->format($exp_time, 'custom', 'Y-m-d');
-
-    // If an Entity Type is not set on a Task (because it is new) then use the Task Type to select the #default_value for Entity Type.
-    switch ($task_type) {
-        case 'user_assigned_task':
-        $task_type = 'user';
-        break;
-        case 'system_task':
-        $task_type = 'system';
-        break;
-        default:
-        $task_type = NULL;
-    }
+    // Check if the values are already set in the DB, else NULL.
+    $task_type    = isset($values['type'][0]['target_id']) ? $values['type'][0]['target_id'] : NULL;
+    $due_date     = isset($values['due_date'][0]['value']) ? $values['due_date'][0]['value'] : NULL;
+    $exp_date     = isset($values['expire_date'][0]['value']) ? $values['expire_date'][0]['value'] : NULL;
+    $parent       = isset($values['parent_task'][0]['target_id']) ? $entity::load($values['parent_task'][0]['target_id']) : NULL;
+    // Format dates
+    $date_stamp   = $due_date ? \Drupal::service('date.formatter')->format($due_date, 'custom', 'Y-m-d') : NULL;
+    $expire_stamp = $exp_date ? \Drupal::service('date.formatter')->format($exp_date, 'custom', 'Y-m-d') : NULL;
 
     $form['parent_task'] = [
       '#type'          => 'entity_autocomplete',
@@ -61,7 +44,7 @@ class TaskForm extends ContentEntityForm {
     ];
 
     if (!$this->entity->isNew()) {
-    $form['new_revision'] = [
+      $form['new_revision'] = [
         '#type'          => 'checkbox',
         '#title'         => $this->t('Create new revision'),
         '#default_value' => FALSE,
@@ -77,24 +60,6 @@ class TaskForm extends ContentEntityForm {
       '#required'      => TRUE,
       '#weight'        => 12,
     ];
-
-//    if ($task_type !== 'system') {
-//      $form['assigned_by'] = [
-//        '#type'          => 'entity_autocomplete',
-//        '#title'         => 'Assigned By:',
-//        '#target_type'   => 'user',
-//        '#default_value' => $assigner ? $assigner : 0,
-//        '#weight'        => 13,
-//      ];
-//    }
-//
-//    $form['assigned_to'] = [
-//      '#type'          => 'entity_autocomplete',
-//      '#title'         => 'Assigned To:',
-//      '#target_type'   => 'user',
-//      '#default_value' => $assignee ? $assignee : 0,
-//      '#weight'        => 14,
-//    ];
 
     $form['due_date'] = [
       '#type'          => 'date',
@@ -112,14 +77,6 @@ class TaskForm extends ContentEntityForm {
       '#weight'        => 16,
     ];
 
-//    $form['assigned_by_type'] = [
-//      '#type'          => 'radios',
-//      '#title'         => 'Task Type:',
-//      '#options'       => array('user' => 'user', 'system' => 'system'),
-//      '#default_value' => $assign_type ? $assign_type : $task_type,
-//      '#weight'        => 17,
-//    ];
-
     return $form;
   }
 
@@ -132,13 +89,24 @@ class TaskForm extends ContentEntityForm {
 
     //Get and Set Due_Date from Format 'Y-m-d' to Unix Format in DB.
     $due_date = $form_state->getValue('due_date');
-    $unix_time = strtotime($due_date);
-    $entity->set('due_date', $unix_time);
+    if ($due_date) {
+      $unix_time = strtotime($due_date);
+      $entity->set('due_date', $unix_time);
+    }
+    else {
+      $entity->set('due_date', NULL);
+    }
 
     //Get and Set Exp_Date from Format 'Y-m-d' to Unix Format in DB.
     $exp_date = $form_state->getValue('expire_date');
-    $unix_time = strtotime($exp_date);
-    $entity->set('expire_date', $unix_time);
+    if ($exp_date) {
+      $unix_time = strtotime($exp_date);
+      $entity->set('expire_date', $unix_time);
+    }
+    else {
+      $entity->set('expire_date', NULL);
+    }
+
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {
@@ -151,9 +119,6 @@ class TaskForm extends ContentEntityForm {
     else {
       $entity->setNewRevision(FALSE);
     }
-//    $storage = \Drupal::entityTypeManager()->getStorage('task');
-//    \Drupal::messenger()->addMessage(print_r($storage, TRUE));
-//    $storage->save($task);
 
     $status = parent::save($form, $form_state);
 
