@@ -6,6 +6,7 @@ dependencies:
       - task
   module:
     - task
+    - views_any_route
 id: task_my_tasks
 label: 'Task: My Tasks'
 module: views
@@ -433,8 +434,114 @@ display:
           system_label: System
           entity_type: task
           plugin_id: task_assigner
-      filters: {  }
-      sorts: {  }
+      filters:
+        status:
+          id: status
+          table: task_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '!='
+          value: closed
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: task
+          entity_field: status
+          plugin_id: string
+        name:
+          id: name
+          table: task_field_data
+          field: name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: name_op
+            label: 'Search Task Name'
+            description: ''
+            use_operator: false
+            operator: name_op
+            identifier: name
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              nata_non_member: '0'
+              nata_member: '0'
+              master_report_access: '0'
+              administrator: '0'
+              associate: '0'
+              certified_professional: '0'
+              certified_retired: '0'
+              certified_student: '0'
+              honorary: '0'
+              licensed_professional: '0'
+              retired: '0'
+              student: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: task
+          entity_field: name
+          plugin_id: string
+      sorts:
+        created:
+          id: created
+          table: task_field_data
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          granularity: second
+          entity_type: task
+          entity_field: created
+          plugin_id: date
       title: 'My Tasks'
       header: {  }
       footer: {  }
@@ -502,13 +609,30 @@ display:
         pager: false
         fields: false
         arguments: false
+        use_ajax: false
+        header: false
+        filters: false
+        filter_groups: false
       row:
         type: fields
       pager:
-        type: some
+        type: mini
         options:
           items_per_page: 10
           offset: 0
+          id: 0
+          total_pages: null
+          tags:
+            previous: ‹‹
+            next: ››
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
       fields:
         name:
           id: name
@@ -859,12 +983,89 @@ display:
           entity_type: task
           entity_field: assigned_to
           plugin_id: numeric
+      use_ajax: true
+      header:
+        views_any_route_area:
+          id: views_any_route_area
+          table: views
+          field: views_any_route_area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: 1
+          route: view.task_my_tasks.page_1
+          route_params: 'user={{ raw_arguments.assigned_to }}'
+          access_plugin: views_any_route_default
+          url_plugin: views_any_route_default
+          link_plugin: views_any_route_default
+          button_text: 'View and Search My Tasks'
+          button_classes: 'button my-tasks'
+          query_string: ''
+          button_options: ''
+          button_attributes: ''
+          button_access_denied:
+            value: ''
+            format: basic_html
+          button_prefix:
+            value: ''
+            format: basic_html
+          button_suffix:
+            value: ''
+            format: basic_html
+          destination: 1
+          plugin_id: views_any_route_area
+      filters:
+        status:
+          id: status
+          table: task_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '!='
+          value: closed
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: task
+          entity_field: status
+          plugin_id: string
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - user
       tags: {  }
   page_1:
