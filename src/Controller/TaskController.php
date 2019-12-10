@@ -43,7 +43,6 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
 
     // Make sure to trigger kernel events.
     \Drupal::service('kernel')->terminate($request, $response);
-    $response->send();
     return $response;
   }
 
