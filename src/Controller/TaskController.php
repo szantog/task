@@ -20,7 +20,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TaskController extends ControllerBase implements ContainerInjectionInterface {
 
-
+  /**
+   * @return RedirectResponse
+   */
   public function redirectToPrevious() {
     // Return to where we came from
     $server = Request::createFromGlobals()->server;
@@ -42,43 +44,48 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
     // Make sure to trigger kernel events.
     \Drupal::service('kernel')->terminate($request, $response);
     $response->send();
+    return $response;
   }
 
   /**
    * @param TaskInterface $task
+   * @return RedirectResponse
    */
   public function markComplete(TaskInterface $task) {
     MarkComplete::doAction($task);
     \Drupal::messenger()->addStatus('Task was marked as complete');
-    $this->redirectToPrevious();
+    return $this->redirectToPrevious();
   }
 
   /**
    * @param TaskInterface $task
+   * @return RedirectResponse
    */
   public function dismiss(TaskInterface $task) {
     Dismiss::doAction($task);
     \Drupal::messenger()->addStatus('Task was dismissed.');
-    $this->redirectToPrevious();
+    return $this->redirectToPrevious();
   }
 
   /**
    * @param TaskInterface $task
+   * @return RedirectResponse
    */
   public function manual_expire(TaskInterface $task) {
     SystemTask::expireTask($task);
     \Drupal::messenger()->addStatus('Task was expired.');
-    $this->redirectToPrevious();
+    return $this->redirectToPrevious();
   }
 
   /**
-   * Displays a Task  revision.
+   * Displays a Task revision.
    *
-   * @param int $task_revision
-   *   The Task  revision ID.
-   *
+   * @param $task_revision
+   *   The Task revision ID.
    * @return array
    *   An array suitable for drupal_render().
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function revisionShow($task_revision) {
     $task = $this->entityManager()->getStorage('task')->loadRevision($task_revision);
@@ -88,13 +95,14 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
   }
 
   /**
-   * Page title callback for a Task  revision.
+   * Page title callback for a Task revision.
    *
-   * @param int $task_revision
-   *   The Task  revision ID.
-   *
-   * @return string
+   * @param $task_revision
+   *   The Task revision ID.
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
    *   The page title.
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function revisionPageTitle($task_revision) {
     $task = $this->entityManager()->getStorage('task')->loadRevision($task_revision);
@@ -104,11 +112,12 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
   /**
    * Generates an overview table of older revisions of a Task .
    *
-   * @param \Drupal\task\Entity\TaskInterface $task
-   *   A Task  object.
-   *
+   * @param TaskInterface $task
+   *   A Task object.
    * @return array
    *   An array as expected by drupal_render().
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function revisionOverview(TaskInterface $task) {
     $account = $this->currentUser();
