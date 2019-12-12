@@ -1,0 +1,40 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - task
+  config:
+    - task.task_type.user_assigned_task
+id: task.user_assigned_task.default
+targetEntityType: task
+bundle: user_assigned_task
+mode: default
+content:
+  assigned_by:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  assigned_to:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

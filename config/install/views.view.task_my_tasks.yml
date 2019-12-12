@@ -543,7 +543,37 @@ display:
           entity_field: created
           plugin_id: date
       title: 'My Tasks'
-      header: {  }
+      header:
+        views_any_route_area:
+          id: views_any_route_area
+          table: views
+          field: views_any_route_area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: 1
+          route: entity.task.add_page
+          route_params: ''
+          access_plugin: views_any_route_default
+          url_plugin: views_any_route_default
+          link_plugin: views_any_route_default
+          button_text: 'Add Task'
+          button_classes: 'button add-task'
+          query_string: ''
+          button_options: ''
+          button_attributes: ''
+          button_access_denied:
+            value: ''
+            format: basic_html
+          button_prefix:
+            value: ''
+            format: basic_html
+          button_suffix:
+            value: ''
+            format: basic_html
+          destination: 1
+          plugin_id: views_any_route_area
       footer: {  }
       empty: {  }
       relationships: {  }

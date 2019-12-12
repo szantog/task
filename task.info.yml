@@ -3,3 +3,6 @@ type: module
 description: 'Allows users to create and assign tasks, and allows for creation of cron-based tasks'
 core: 8.x
 package: 'Task'
+dependencies:
+  - views:views
+  - views_any_route:views_any_route
