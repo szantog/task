@@ -6,3 +6,4 @@ package: 'Task'
 dependencies:
   - views:views
   - views_any_route:views_any_route
+configure: 'task.settings'

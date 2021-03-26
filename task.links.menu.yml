@@ -1,9 +1,8 @@
 task.settings:
   title: 'Task Settings'
   route_name: task.settings
-  description: 'List Task entities'
-  parent: system.admin_structure
-  weight: 100
+  parent: system.admin_config
+  description: 'Task configuration.'
 
 # Task menu items definition
 entity.task.collection:
@@ -18,7 +17,7 @@ entity.task_type.collection:
   title: 'Task type'
   route_name: entity.task_type.collection
   description: 'List Task type (bundles)'
-  parent: task.settings
+  parent: system.admin_structure
   weight: 99
 
 # Task Closure Reason menu items definition
