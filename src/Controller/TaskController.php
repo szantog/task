@@ -50,16 +50,6 @@ class TaskController extends ControllerBase implements ContainerInjectionInterfa
    * @param TaskInterface $task
    * @return RedirectResponse
    */
-  public function markComplete(TaskInterface $task) {
-    MarkComplete::doAction($task);
-    \Drupal::messenger()->addStatus('Task was marked as complete');
-    return $this->redirectToPrevious();
-  }
-
-  /**
-   * @param TaskInterface $task
-   * @return RedirectResponse
-   */
   public function dismiss(TaskInterface $task) {
     Dismiss::doAction($task);
     \Drupal::messenger()->addStatus('Task was dismissed.');

@@ -16,10 +16,11 @@ task.admin:
 
 # TODO: Write Access Functions
 
-task.mark_complete:
+entity.task.mark_complete:
   path: /task/{task}/mark_complete
   defaults:
-    _controller: '\Drupal\task\Controller\TaskController::markComplete'
+    _entity_form: 'task.mark-complete'
+    _title: 'Confirm operation'
   options:
     parameters:
       task:
@@ -27,7 +28,7 @@ task.mark_complete:
   requirements:
     _permission: 'use task mark_complete action'
 
-task.dismiss:
+entity.task.dismiss:
   path: /task/{task}/dismiss
   defaults:
     _controller: '\Drupal\task\Controller\TaskController::dismiss'
@@ -38,7 +39,7 @@ task.dismiss:
   requirements:
     _permission: 'use task dismiss action'
 
-task.manual_expire:
+entity.task.manual_expire:
   path: /task/{task}/manual_expire
   defaults:
     _controller: '\Drupal\task\Controller\TaskController::manual_expire'

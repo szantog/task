@@ -2,6 +2,8 @@
 
 namespace Drupal\task\Entity;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
@@ -32,6 +34,7 @@ use Drupal\user\UserInterface;
  *       "add" = "Drupal\task\Form\TaskForm",
  *       "edit" = "Drupal\task\Form\TaskForm",
  *       "delete" = "Drupal\task\Form\TaskDeleteForm",
+ *       "mark-complete" = "Drupal\task\Form\TaskActionConfirmForm",
  *     },
  *     "access" = "Drupal\task\TaskAccessControlHandler",
  *     "route_provider" = {
@@ -66,6 +69,9 @@ use Drupal\user\UserInterface;
  *     "revision_delete" = "/task/{task}/revisions/{task_revision}/delete",
  *     "translation_revert" = "/task/{task}/revisions/{task_revision}/revert/{langcode}",
  *     "collection" = "/admin/content/task",
+ *     "mark-complete" = "/task/{task}/mark_complete",
+ *     "dismiss" = "/task/{task}/dismiss",
+ *     "manual_expire" = "/task/{task}/manual_expire"
  *   },
  *   bundle_entity_type = "task_type",
  *   field_ui_base_route = "entity.task_type.edit_form"
@@ -125,6 +131,7 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
 
   /**
    * Not used, but part of the RevisionableContentEntityBase class.
+   *
    * @return string
    */
   public function getName() {
@@ -134,6 +141,7 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
 
   /**
    * @param string $field
+   *
    * @return bool|\Drupal\Core\Entity\EntityInterface|null
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -142,8 +150,8 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
     if (in_array($field, ['assigned_to', 'assigned_by'])) {
       $entity_id = $this->get($field)->getValue();
       $entity_id = isset($entity_id[0]['value']) ? $entity_id[0]['value'] : 0;
-//      $entity_type = $this->get($field . '_type')->getValue();
-//      $entity_type = isset($entity_type[0]['value']) ? $entity_type[0]['value'] : FALSE;
+      //      $entity_type = $this->get($field . '_type')->getValue();
+      //      $entity_type = isset($entity_type[0]['value']) ? $entity_type[0]['value'] : FALSE;
       $entity_type = 'user';
       if ($entity_id && $entity_type) {
         $entity = \Drupal::entityTypeManager()
@@ -164,6 +172,16 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
   }
 
   /**
+   * Gets assignees.
+   */
+  public function getAssignees() {
+    if (!empty($this->get('assigned_to'))) {
+      return $this->get('assigned_to')->referencedEntities();
+    }
+    return [];
+  }
+
+  /**
    * @return bool|\Drupal\Core\Entity\EntityInterface|null
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -174,7 +192,9 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
 
   /**
    * Not used, but part of the RevisionableContentEntityBase class.
+   *
    * @param string $name
+   *
    * @return $this|TaskInterface
    */
   public function setName($name) {
@@ -236,6 +256,7 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
 
   /**
    * Not used, but part of the RevisionableContentEntityBase class.
+   *
    * @return bool
    */
   public function isPublished() {
@@ -245,7 +266,9 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
 
   /**
    * Not used, but part of the RevisionableContentEntityBase class.
+   *
    * @param bool $published
+   *
    * @return TaskInterface|void
    */
   public function setPublished($published = FALSE) {
@@ -313,20 +336,20 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
     $fields['assigned_by_type'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Assigner Entity Type'))
       ->setDescription(t('Entity type of the assignee. Typically a user, or blank for system tasks.'))
-      ->setSettings(array(
+      ->setSettings([
         'default_value' => '',
         'max_length' => 255,
         'text_processing' => 0,
-      ))
+      ])
       ->setDisplayConfigurable('view', FALSE);
     $fields['assigned_to_type'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Assignee Entity Type'))
       ->setDescription(t('Entity type of the assignee. Typically a user, or blank for system tasks.'))
-      ->setSettings(array(
+      ->setSettings([
         'default_value' => '',
         'max_length' => 255,
         'text_processing' => 0,
-      ))
+      ])
       ->setDisplayConfigurable('view', FALSE);
     $fields['assigned_by'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Assigned by'))
@@ -346,7 +369,6 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
       ->setTranslatable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-
 
 
     /*
@@ -386,11 +408,11 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
     $fields['status'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Task Status'))
       ->setDescription(t('The current status of a task.'))
-      ->setSettings(array(
+      ->setSettings([
         'default_value' => 'active',
         'max_length' => 255,
         'text_processing' => 0,
-      ))
+      ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'parent',
@@ -400,19 +422,19 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
     $fields['close_type'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Close Type'))
       ->setDescription(t('A string representing the reason the task was closed.'))
-      ->setSettings(array(
+      ->setSettings([
         'default_value' => 'active',
         'max_length' => 255,
         'text_processing' => 0,
-      ));
+      ]);
     $fields['task_data'] = BaseFieldDefinition::create('map')
       ->setLabel(t('Task Data'))
       ->setDescription(t('This is a freeform serialized array, to be used by custom plugins.'))
-      ->setSettings(array(
+      ->setSettings([
         'default_value' => 'active',
         'max_length' => 255,
         'text_processing' => 0,
-      ));
+      ]);
 
     $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Revision translation affected'))
@@ -424,4 +446,29 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
     return $fields;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function toUrl($rel = 'canonical', array $options = []) {
+    if (in_array($rel, ['mark-complete', 'dismiss', 'manual_expore'])) {
+      $new_options = [
+        'attributes' => [
+          'id' => Html::getUniqueId($rel),
+          'class' => [
+            'use-ajax',
+          ],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'width' => 700,
+          ]),
+        ],
+        'query' => [
+          'destination' => \Drupal::requestStack()->getCurrentRequest()->getRequestUri(),
+        ],
+      ];
+      $options = array_merge($options, $new_options);
+    }
+
+    return parent::toUrl($rel, $options);
+  }
 }
