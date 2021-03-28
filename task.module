@@ -92,8 +92,8 @@ Based on this, we will make the following annotation plugins:
 <ul>
 <li><b>@TaskAction:</b> Selectable actions for either tasks or templates. Each bundle may specify which actions it would like to use (or leave blank for all). and the Task Action may limit which bundles it is available to.</li>
 <li><b>@TaskBundle:</b> Specify the task post-creation and closing actions for a given bundle, i.e. gathering data on opening the task, sending email on closing, etc.</li>
-<li><b>@TaskTemplateBundle:</b> Specify the "create task from template" action per bundle.</li> 
-</ul>     
+<li><b>@TaskTemplateBundle:</b> Specify the "create task from template" action per bundle.</li>
+</ul>
       ') . '</p>';
 
       return $output;
@@ -159,10 +159,6 @@ function task_theme() {
     'template' => 'fields/field--expire-date',
     'base hook' => 'field',
   ];
-  $theme['field__close_date'] = [
-    'template' => 'fields/field--close-date',
-    'base hook' => 'field',
-  ];
   $theme['field__status'] = [
     'template' => 'fields/field--status',
     'base hook' => 'field',
@@ -207,7 +203,13 @@ function task_entity_extra_field_info() {
  * Implements hook_ENTITY_TYPE_view().
  */
 function task_task_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
-  $build['task_options'] = TaskUtilities::getTaskOptions($entity);
+  $taskOptions = TaskUtilities::getTaskOptions($entity);
+  if (!is_array($taskOptions)) {
+    $taskOptions = [
+      '#markup' => TaskUtilities::getTaskOptions($entity),
+    ];
+  }
+  $build['task_options'] = $taskOptions;
 }
 
 /**
