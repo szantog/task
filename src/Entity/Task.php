@@ -127,6 +127,10 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
     if (!$this->getRevisionUser()) {
       $this->setRevisionUserId($this->getOwnerId());
     }
+
+    if ($this->getStatus() == 'closed') {
+      $this->set('closed_by', \Drupal::currentUser()->id());
+    }
   }
 
   /**
@@ -369,7 +373,13 @@ class Task extends RevisionableContentEntityBase implements TaskInterface {
       ->setTranslatable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-
+    $fields['closed_by'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Closed by'))
+      ->setDescription(t('The user who closed the task.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler', 'default')
+      ->setDisplayConfigurable('view', TRUE);
 
     /*
      * Date fields.
